@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "Tierhandlung_Projekt.1_Moritz_Kolb/1.0.0": {
+        "runtime": {
+          "Tierhandlung_Projekt.1_Moritz_Kolb.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Tierhandlung_Projekt.1_Moritz_Kolb/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
