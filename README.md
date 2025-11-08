@@ -1,5 +1,5 @@
-#Schulprojekt:
-###Moritz Kolb
+# Schulprojekt:
+### Moritz Kolb
 
 Eine Anwendung, mit der Mitarbeiter eines Tierheims
 die zu vermittelnden Tiere mit Fotos
