@@ -1,0 +1,12 @@
+| Nr. | Funktionale Anforderung                                                                                                                                               |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Das System ermöglicht es Interessenten, Tiere anhand von Filtern (z. B. Tierart, Alter, Größe, Gesundheitsstatus) benutzerfreundlich zu durchsuchen.                  |
+| 2   | Das System zeigt zu jedem Tier ein detailliertes Profil mit Fotos, Beschreibung, Charaktereigenschaften, Gesundheitsinfos und Vermittlungsstatus an.                  |
+| 3   | Interessenten können über ein benutzerfreundliches Anfrageformular eine Adoptionsanfrage an das Tierheim senden.                                                      |
+| 4   | Mitarbeiter können Tierprofile anlegen, bearbeiten, aktualisieren und löschen, inklusive Foto-Upload.                                                                 |
+| 5   | Das System ermöglicht Tierheim-Mitarbeitern die Verwaltung und Bearbeitung eingegangener Adoptionsanfragen (Status: eingegangen, in Prüfung, angenommen, abgelehnt).  |
+| 6   | Das System sendet automatisch Bestätigungen und Updates zu Adoptionsanfragen an Interessenten (z. B. per E-Mail oder Systembenachrichtigung).                         |
+| 7   | Benutzer können ein persönliches Nutzerkonto erstellen, um Favoriten zu speichern und ihren Anfrageverlauf einzusehen.                                                |
+| 8   | Eine Start-/Übersichtsseite zeigt benutzerfreundlich eine Auswahl „Tiere des Monats“, „Neu eingetroffen“ oder „Dringend Zuhause gesucht“ an.                          |
+| 9   | Das System enthält eine Suchfunktion mit Autovervollständigung, um Tiere schnell nach Namen oder Eigenschaften zu finden.                                             |
+| 10  | Das System protokolliert erfolgte Vermittlungen und zeigt Statistiken für Mitarbeiter an (z. B. Anzahl Vermittlungen pro Monat, häufige Tierarten, Aufenthaltsdauer). |
