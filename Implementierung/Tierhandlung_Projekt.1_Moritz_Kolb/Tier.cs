@@ -1,10 +1,13 @@
-﻿namespace Tierhandlung_Projekt._1_Moritz_Kolb
+﻿using System.ComponentModel.Design;
+
+namespace Tierhandlung_Projekt._1_Moritz_Kolb
 {   
     public static class Tierheim
     {
-        static List<Tier> alle_tiere = new ();
-        static private void tier_hinzufügen(Tier tier) => alle_tiere.Add(tier);
-        static public void tier_erstellen()
+        static public List<Tier> alle_tiere = new ();
+        static public List<Tier> ausgewählte_tiere = new();
+        
+        static public void tier_hinzufügen()
         {
             try
             {
@@ -15,10 +18,9 @@
                 Console.WriteLine("Geburtsdatum:");
                 var datum = Convert.ToDateTime(Console.ReadLine());
 
-
                 if (art != null && name != null)
                 {
-                    tier_hinzufügen(new Tier(art, name, datum));
+                    alle_tiere.Add(new Tier(art, name, datum));
                 }
                 else
                 {
@@ -31,11 +33,29 @@
             }
         }
 
-        static public List<Tier> filter_nach_tier(string suchbegriff)
+        static public void filter_nach_tier()
         {
-            var gefilterte_tiere = alle_tiere.Where((Tier t) => t.name == "*"+suchbegriff+"*").ToList();
-            return gefilterte_tiere;
+
+            string suchbegriff = "";
+            var suche = Console.ReadLine();
+            if (suche is not null)
+            {
+                suchbegriff = suche;
+            }
+            var gefilterte_tiere = alle_tiere.Where(( tier ) => tier.tierart.Contains(suchbegriff)).ToList();
+            tiere_anzeigen(gefilterte_tiere);
+            Console.ReadLine();
         }
+
+        static public void tiere_anzeigen(List<Tier> tiere)
+        {
+            foreach(Tier tier in tiere)
+            {
+                Console.WriteLine($"Art: {tier.tierart} Name: {tier.name} Geburtsdatum: {tier.geburtsdatum} Adoptionsnfrage: {tier.reserviert}");
+            }
+            Console.WriteLine();
+        }
+
 
 
     }
