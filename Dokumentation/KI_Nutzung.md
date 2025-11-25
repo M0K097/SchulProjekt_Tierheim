@@ -11,7 +11,7 @@ Prompts für die Generierung des Inhaltes für ki_anforderungen_roh.txt
 
 Ergebniss: Liste der rohen funktionalen Anforderungen.
 
-## 2 weitere Prompts die verwendet wurden waren:
+## 2 weitere Prompts die verwendet wurden wurden:
 
 1) "Explain the basics of Linq in C# in .NET"
 2) "Show me some examples how Linq can be combined with var and patternmatching in c# to write more modern code"
