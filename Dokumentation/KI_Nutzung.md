@@ -22,11 +22,7 @@ Ergebniss: Liste der rohen funktionalen Anforderungen.
 
 Ich habe ChatJPT (free version) in diesem Projekt verwendet, um einmal die KI-Anforderungen_roh zu generieren und um mir ein besseres Verständnis
 über fortgeschrittene Features im .NET zu verschaffen.
-Generell benutze ich bei Übungsaufgaben die KI nur als Ersatz für Google, um schneller Referenzen zu finden oder mir Inspiration für Herangehensweisen an ein
-Problem zu verschaffen.
-Ich kopiere grundsätzlich keinen Code der KI, sondern benutze ihre Antworten nur als Referenz.
-Der Grund dafür ist erstens, dass ich der Meinung bin, dass, wenn man den Code einfach kopiert, man in eine Schleife fällt, aus der man nicht wieder herauskommt, und man somit nicht wirklich etwas lernt.
-Des Weiteren habe ich die persönliche Erfahrung gemacht, dass der Code der KI immer überprüft und nachgebessert werden muss, bis er wirklich funktioniert, und das bis ich das Modell
-so gepromptet habe, bis der Code die von mir erwünschte Form hat, ich ihn bei Projekten dieser Größe schneller selbst implementiert habe.
+generell benutze ich bei Übungsaufgaben die KI nur als Ersatz für Google, um schneller Referenzen zu finden oder mir Inspiration für Herangehensweisen an ein Problem zu verschaffen.
+
 
 
