@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tierhandlung_Projekt.1_Moritz_Kolb", "Tierhandlung_Projekt.1_Moritz_Kolb\Tierhandlung_Projekt.1_Moritz_Kolb.csproj", "{ACD73B79-FF9D-455C-A8ED-2EA39800E46F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tierhandlung_WPF_Anwendung_mit_Entity_Framework", "..\..\SchulProjekt_Tierheim_fresh_pull\Implementierung\Tierheim_mit_ui_und_db\Tierhandlung_WPF_Anwendung_mit_Entity_Framework\Tierhandlung_WPF_Anwendung_mit_Entity_Framework.csproj", "{846EEBFB-AC2B-4631-505E-0874F1F6E1EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{ACD73B79-FF9D-455C-A8ED-2EA39800E46F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACD73B79-FF9D-455C-A8ED-2EA39800E46F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACD73B79-FF9D-455C-A8ED-2EA39800E46F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{846EEBFB-AC2B-4631-505E-0874F1F6E1EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{846EEBFB-AC2B-4631-505E-0874F1F6E1EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{846EEBFB-AC2B-4631-505E-0874F1F6E1EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{846EEBFB-AC2B-4631-505E-0874F1F6E1EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,52 @@
+﻿<Window x:Class="Tierhandlung_WPF_Anwendung_mit_Entity_Framework.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tierhandlung_WPF_Anwendung_mit_Entity_Framework"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="AUto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+            <StackPanel>
+            <TextBox x:Name="filter_query_name" KeyUp="filter_for_query" Width="Auto" Height="20"/>
+            <DataGrid x:Name="tier_liste" ItemsSource="{Binding gefilterte_tiere}" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="tier_liste_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Nummer"  Binding="{Binding TierId}" />
+                    <DataGridTextColumn Header="Art" Binding="{Binding Tierart}" />
+                    <DataGridTextColumn Header="Name"  Binding="{Binding Tiername}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <TextBlock x:Name="selected">
+           <Run>Name:</Run>
+           <Run Text="{Binding Tiername}"></Run>
+           <LineBreak></LineBreak>
+           <Run>Spezies:</Run>
+           <Run Text="{Binding Tierart}"></Run>
+           <LineBreak></LineBreak>
+           <Run>Nummer:</Run>
+           <Run Text="{Binding TierId}"></Run>
+           <LineBreak></LineBreak>
+           <Run>Gebohren:</Run>
+           <Run Text="{Binding Geburtsdatum}"></Run>
+           <LineBreak></LineBreak>
+           <Run>Beschreibung:</Run>
+           <Run Text="{Binding Beschreibung}"></Run>
+            </TextBlock>
+            <Button>Anfragen</Button>
+        </StackPanel>
+
+
+    </Grid>
+</Window>
