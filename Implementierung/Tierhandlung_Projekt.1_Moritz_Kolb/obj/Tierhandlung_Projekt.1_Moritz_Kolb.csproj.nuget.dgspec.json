@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\moritz.kolb\\Desktop\\SchulProjekt.1_Tierhandlung\\Implementierung\\Tierhandlung_Projekt.1_Moritz_Kolb\\Tierhandlung_Projekt.1_Moritz_Kolb.csproj": {}
+    "C:\\Users\\M0K09\\Source\\Repos\\SchulProjekt_Tierheim_fresh\\Implementierung\\Tierhandlung_Projekt.1_Moritz_Kolb\\Tierhandlung_Projekt.1_Moritz_Kolb.csproj": {}
   },
   "projects": {
-    "C:\\Users\\moritz.kolb\\Desktop\\SchulProjekt.1_Tierhandlung\\Implementierung\\Tierhandlung_Projekt.1_Moritz_Kolb\\Tierhandlung_Projekt.1_Moritz_Kolb.csproj": {
+    "C:\\Users\\M0K09\\Source\\Repos\\SchulProjekt_Tierheim_fresh\\Implementierung\\Tierhandlung_Projekt.1_Moritz_Kolb\\Tierhandlung_Projekt.1_Moritz_Kolb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\moritz.kolb\\Desktop\\SchulProjekt.1_Tierhandlung\\Implementierung\\Tierhandlung_Projekt.1_Moritz_Kolb\\Tierhandlung_Projekt.1_Moritz_Kolb.csproj",
+        "projectUniqueName": "C:\\Users\\M0K09\\Source\\Repos\\SchulProjekt_Tierheim_fresh\\Implementierung\\Tierhandlung_Projekt.1_Moritz_Kolb\\Tierhandlung_Projekt.1_Moritz_Kolb.csproj",
         "projectName": "Tierhandlung_Projekt.1_Moritz_Kolb",
-        "projectPath": "C:\\Users\\moritz.kolb\\Desktop\\SchulProjekt.1_Tierhandlung\\Implementierung\\Tierhandlung_Projekt.1_Moritz_Kolb\\Tierhandlung_Projekt.1_Moritz_Kolb.csproj",
-        "packagesPath": "C:\\Users\\moritz.kolb\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\moritz.kolb\\Desktop\\SchulProjekt.1_Tierhandlung\\Implementierung\\Tierhandlung_Projekt.1_Moritz_Kolb\\obj\\",
+        "projectPath": "C:\\Users\\M0K09\\Source\\Repos\\SchulProjekt_Tierheim_fresh\\Implementierung\\Tierhandlung_Projekt.1_Moritz_Kolb\\Tierhandlung_Projekt.1_Moritz_Kolb.csproj",
+        "packagesPath": "C:\\Users\\M0K09\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\M0K09\\Source\\Repos\\SchulProjekt_Tierheim_fresh\\Implementierung\\Tierhandlung_Projekt.1_Moritz_Kolb\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\moritz.kolb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\M0K09\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -39,7 +39,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net7.0": {
@@ -60,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308\\RuntimeIdentifierGraph.json"
         }
       }
     }

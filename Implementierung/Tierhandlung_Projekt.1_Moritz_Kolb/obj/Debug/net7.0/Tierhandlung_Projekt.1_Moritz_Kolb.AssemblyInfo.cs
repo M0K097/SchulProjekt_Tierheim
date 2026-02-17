@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Tierhandlung_Projekt.1_Moritz_Kolb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3acf78b01ca4cf683c9e191d87c4b902f258c1e5")]
 [assembly: System.Reflection.AssemblyProductAttribute("Tierhandlung_Projekt.1_Moritz_Kolb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Tierhandlung_Projekt.1_Moritz_Kolb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
