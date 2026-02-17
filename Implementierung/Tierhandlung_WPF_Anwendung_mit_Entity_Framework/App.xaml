@@ -1,0 +1,9 @@
+﻿<Application x:Class="Tierhandlung_WPF_Anwendung_mit_Entity_Framework.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Tierhandlung_WPF_Anwendung_mit_Entity_Framework"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
