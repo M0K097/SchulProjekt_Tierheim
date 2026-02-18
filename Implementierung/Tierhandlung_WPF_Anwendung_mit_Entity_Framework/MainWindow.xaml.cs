@@ -50,9 +50,9 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             string passwd = login_user_password.Text;
             if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(passwd))
             {
-                var user = tierheim.context.Account.FirstOrDefault(a => a.Benutzername == name && a.Passwort == a.Passwort);
-                if (user != null)
+                try
                 {
+                    var user = tierheim.context.Account.First(a => a.Benutzername == name && a.Passwort == passwd);
                     Benutzer = user;
                     user_name_show.Text = $"Angemeldet als Benutzer: {user.Benutzername}";
                     login_field.Visibility = Visibility.Hidden;
@@ -69,7 +69,6 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                         user_pannel.Visibility = Visibility.Visible;
                         tierheim.load_animals();
                     }
-
                     var alle_anfragen = tierheim.context.Anfragen.Include(a => a.Tier);
                     foreach (var a in alle_anfragen)
                     {
@@ -77,11 +76,10 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                             tierheim.deine_anfragen.Add(a);
                     }
                 }
-                else
+                catch
                 {
                     user_name_show.Text = "Falscher Benutzername oder Passwort";
                 }
-
             }
         }
 
