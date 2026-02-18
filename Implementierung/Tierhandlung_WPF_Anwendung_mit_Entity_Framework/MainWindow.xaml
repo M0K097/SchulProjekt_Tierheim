@@ -58,9 +58,19 @@
             <Button HorizontalAlignment="Left" Width="200" Click="Button_Click">Anfragen</Button>
             <TextBlock x:Name="anfrage_info"></TextBlock>
             <Label>Deine Anfragen</Label>
-            <ListView></ListView>
+            <ListView ItemsSource="{Binding deine_anfragen}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <Run Text="{Binding AnfrageId}"></Run>
+                            <Run Text="{Binding Tier.Tiername}"></Run>
+                            <Run Text="{Binding Tier.Tierart}"></Run>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
         </StackPanel>
-
 
         <DataGrid x:Name="liste_anfragen" Grid.Column="2" ItemsSource="{Binding alle_anfragen}" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="tier_liste_SelectionChanged">
             <DataGrid.Columns>

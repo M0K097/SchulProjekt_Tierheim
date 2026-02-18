@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
@@ -19,7 +20,6 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
     {
 
         Tierheim tierheim { get; set; }
-        ObservableCollection<string> deine_anfragen { get; set; }
         public Account? Benutzer { get; set; } = null;
 
         public MainWindow()
@@ -56,7 +56,15 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                     user_name_show.Text = $"Angemeldet als Benutzer: {user.Benutzername}";
                     login_field.Visibility = Visibility.Hidden;
                     abmelden.Visibility = Visibility.Visible;
+                    
+                    var alle_anfragen = tierheim.context.Anfragen.Include(a => a.Tier);              
+                    foreach(var a in alle_anfragen)
+                    {
+                        if(a.NutzerId == Benutzer.NutzerId)
+                        tierheim.deine_anfragen.Add(a);
+                    }
                 }
+
                 else
                 {
                     user_name_show.Text = "Falscher Benutzername oder Passwort";

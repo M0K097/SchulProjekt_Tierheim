@@ -17,6 +17,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
         public ObservableCollection<Tiere> alle_tiere { get; set; }
         public ObservableCollection<Tiere> gefilterte_tiere { get; set; }
         public ObservableCollection<Anfragen> alle_anfragen { get; set; }
+        public ObservableCollection<Anfragen> deine_anfragen { get; set; }
 
         public ObservableCollection<Tiere> load_animals()
         {   
@@ -67,6 +68,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
             this.context = new TierheimContext();
             alle_tiere = load_animals();
             alle_anfragen = load_anfragen();
+            deine_anfragen = new ObservableCollection<Anfragen>();
             gefilterte_tiere = new ObservableCollection<Tiere>(alle_tiere);
         }
     }
