@@ -59,8 +59,8 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
             neue_anfrage.TierId = TierId;
 
             context.Anfragen.Add(neue_anfrage);
+            deine_anfragen.Add(neue_anfrage);
             context.SaveChanges();
-
         }
 
         public Tierheim(TierheimContext tierheim)
