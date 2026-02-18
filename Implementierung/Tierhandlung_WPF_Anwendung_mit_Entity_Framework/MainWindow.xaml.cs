@@ -65,7 +65,22 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (Benutzer != null)
+            {
+                var ausgewähltes_tier = tier_liste.SelectedItem as Tiere;
+                if (ausgewähltes_tier != null)
+                {
+                    int tierId = ausgewähltes_tier.TierId;
+                    int benutzerId = Benutzer.NutzerId;
+                    tierheim.anfrage_stellen(benutzerId, tierId);
+                    anfrage_info.Text = $"Anfrage gestellt von dem Benutzer {Benutzer.Benutzername} an das Tier {ausgewähltes_tier.Tiername} erfolgreich erstellt";
 
+                }
+            }
+            else
+            {
+                anfrage_info.Text = "Sie müssen sich anmelden um Anfragen stellen zu können";
+            }
         }
     }
 }

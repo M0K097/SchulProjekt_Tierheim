@@ -35,9 +35,6 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
             return loaded_anfragen;
         }
 
-        public void login(string name, string password)
-        {
-                }
 
         public void filter(string query)
         {
@@ -52,6 +49,17 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
 
                 }
             }
+        }
+
+        public void anfrage_stellen(int BenutzerId, int TierId)
+        {
+            var neue_anfrage = new Anfragen();
+            neue_anfrage.NutzerId = BenutzerId;
+            neue_anfrage.TierId = TierId;
+
+            context.Anfragen.Add(neue_anfrage);
+            context.SaveChanges();
+
         }
 
         public Tierheim(TierheimContext tierheim)
