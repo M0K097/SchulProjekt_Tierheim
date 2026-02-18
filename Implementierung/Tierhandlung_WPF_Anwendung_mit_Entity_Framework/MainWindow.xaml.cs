@@ -27,6 +27,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             InitializeComponent();
             var database_context = new TierheimContext();
             tierheim = new Tierheim(database_context);
+            tierheim.load_animals();
             DataContext = tierheim;
         }
 
@@ -56,6 +57,18 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                     user_name_show.Text = $"Angemeldet als Benutzer: {user.Benutzername}";
                     login_field.Visibility = Visibility.Hidden;
                     abmelden.Visibility = Visibility.Visible;
+                    if (user.IsAdmin != null && user.IsAdmin == true)
+                    {
+                        liste_anfragen.Visibility = Visibility.Visible;
+                        user_pannel.Visibility = Visibility.Collapsed;
+                        tierheim.load_anfragen();
+                    }
+                    else
+                    {
+                        liste_anfragen.Visibility = Visibility.Collapsed;
+                        user_pannel.Visibility = Visibility.Visible;
+                        tierheim.load_animals();
+                    }
 
                     var alle_anfragen = tierheim.context.Anfragen.Include(a => a.Tier);
                     foreach (var a in alle_anfragen)
@@ -103,6 +116,8 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
         {
             login_field.Visibility = Visibility.Visible;
             abmelden.Visibility = Visibility.Hidden;
+            liste_anfragen.Visibility = Visibility.Collapsed;
+            user_name_show.Text = "Sie sind abgemeldet";
             login_user_name.Text = "";
             login_user_password.Text = "";
             tierheim.deine_anfragen.Clear();

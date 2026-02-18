@@ -19,21 +19,29 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
         public ObservableCollection<Anfragen> alle_anfragen { get; set; }
         public ObservableCollection<Anfragen> deine_anfragen { get; set; }
 
-        public ObservableCollection<Tiere> load_animals()
+        public void load_animals()
         {   
             var animals = context.Tiere.ToList();
-            var loadet_animals = new ObservableCollection<Tiere>(animals);
-            return loadet_animals;
+            alle_tiere.Clear();
+            gefilterte_tiere.Clear();
+            foreach(var an in animals)
+            {
+                alle_tiere.Add(an);
+                gefilterte_tiere.Add(an);
+            }
         }
 
-        public ObservableCollection<Anfragen> load_anfragen()
+        public void load_anfragen()
         {
+            alle_anfragen.Clear();
             var anfragen = context.Anfragen.Include(a => a.Nutzer)
                 .Include(a => a.Tier)
                 .OrderBy(a => a.AnfrageId);
+            foreach(var a in anfragen)
+            {
+                alle_anfragen.Add(a);
+            }
 
-            ObservableCollection<Anfragen> loaded_anfragen = new ObservableCollection<Anfragen>(anfragen);
-            return loaded_anfragen;
         }
 
 
@@ -66,10 +74,10 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
         public Tierheim(TierheimContext tierheim)
         {
             this.context = new TierheimContext();
-            alle_tiere = load_animals();
-            alle_anfragen = load_anfragen();
+            alle_tiere = new ObservableCollection<Tiere>();
+            alle_anfragen = new ObservableCollection<Anfragen>();
             deine_anfragen = new ObservableCollection<Anfragen>();
-            gefilterte_tiere = new ObservableCollection<Tiere>(alle_tiere);
+            gefilterte_tiere = new ObservableCollection<Tiere>();
         }
     }
      
