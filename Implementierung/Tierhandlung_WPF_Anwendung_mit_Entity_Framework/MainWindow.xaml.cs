@@ -18,27 +18,49 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
     public partial class MainWindow : Window
     {
 
-        Tierheim Tierheim { get; set; }
+        Tierheim tierheim { get; set; }
+        ObservableCollection<string> deine_anfragen { get; set; }
+        public Account? Benutzer { get; set; } = null;
 
         public MainWindow()
         {
             InitializeComponent();
-            Tierheim = new Tierheim();
-            DataContext = Tierheim;
+            var database_context = new TierheimContext();
+            tierheim = new Tierheim(database_context);
+            DataContext = tierheim;
         }
 
 
         private void filter_for_query(object sender, KeyEventArgs e)
         {
-            Tierheim.filter(filter_query_name.Text);
+            tierheim.filter(filter_query_name.Text);
         }
 
         private void tier_liste_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var t = tier_liste.SelectedItem as Tiere;
-
             if (t != null)
                 selected.DataContext = t;
+        }
+
+        private void anmelden_Click(object sender, RoutedEventArgs e)
+        {
+            string name = login_user_name.Text;
+            string passwd = login_user_password.Text;
+            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(passwd))
+            {
+                var user = tierheim.context.Account.FirstOrDefault(a => a.Benutzername == name && a.Passwort == a.Passwort);
+                if (user != null)
+                {
+                    Benutzer = user;
+                    user_name_show.Text = $"Angemeldet als Benutzer: {user.Benutzername}";
+                }
+                else
+                {
+                    user_name_show.Text = "Falscher Benutzername oder Passwort";
+                }
+
+            }
         }
     }
 }

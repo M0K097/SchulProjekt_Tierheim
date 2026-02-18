@@ -7,28 +7,37 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="AUto"></ColumnDefinition>
+    <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-            <StackPanel>
-            <TextBox x:Name="filter_query_name" KeyUp="filter_for_query" Width="Auto" Height="20"/>
-            <DataGrid x:Name="tier_liste" ItemsSource="{Binding gefilterte_tiere}" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="tier_liste_SelectionChanged">
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label>Benutzer:</Label>
+            <TextBox x:Name="login_user_name" Width="100"></TextBox>
+            <Label>Passwort:</Label>
+            <TextBox x:Name="login_user_password" Width="100"></TextBox>
+            <Button x:Name="anmelden" Width="Auto" Click="anmelden_Click">Anmelden</Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <TextBlock x:Name="user_name_show"></TextBlock>
+            <Label FontFamily="Book Antiqua" FontSize="16">Filter:</Label>
+            <TextBox x:Name="filter_query_name" BorderThickness="5" FontSize="18" KeyUp="filter_for_query" Width="Auto" Height="40"/>
+            <DataGrid x:Name="tier_liste" BorderThickness="5" FontFamily="Book Antiqua" FontSize="18"  ItemsSource="{Binding gefilterte_tiere}" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="tier_liste_SelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Nummer"  Binding="{Binding TierId}" />
-                    <DataGridTextColumn Header="Art" Binding="{Binding Tierart}" />
-                    <DataGridTextColumn Header="Name"  Binding="{Binding Tiername}" />
+                    <DataGridTextColumn Header="Art" Width="Auto" Binding="{Binding Tierart}" />
+                    <DataGridTextColumn Header="Name" Width="*"  Binding="{Binding Tiername}" />
+                    <DataGridTextColumn Header="Nummer" Width="Auto"  Binding="{Binding TierId}" />
                 </DataGrid.Columns>
             </DataGrid>
-
-        </StackPanel>
-        <StackPanel Grid.Row="0" Grid.Column="1">
-            <TextBlock x:Name="selected">
+            <TextBlock FontSize="16" FontFamily="Book Antiqua" Margin="10" x:Name="selected">
            <Run>Name:</Run>
            <Run Text="{Binding Tiername}"></Run>
            <LineBreak></LineBreak>
@@ -44,9 +53,19 @@
            <Run>Beschreibung:</Run>
            <Run Text="{Binding Beschreibung}"></Run>
             </TextBlock>
-            <Button>Anfragen</Button>
+            <Button HorizontalAlignment="Left" Width="200">Anfragen</Button>
+            <Label>Deine Anfragen</Label>
+            <ListView></ListView>
         </StackPanel>
 
+
+        <DataGrid x:Name="liste_anfragen" Grid.Column="2" ItemsSource="{Binding alle_anfragen}" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="tier_liste_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="Auto" Header="Anfrage ID"  Binding="{Binding AnfrageId}" />
+                <DataGridTextColumn Width="Auto" Header="Name des Tieres" Binding="{Binding Tier.Tiername}" />
+                <DataGridTextColumn Width="Auto" Header="Name des Benutzers"  Binding="{Binding Nutzer.Benutzername}" />
+            </DataGrid.Columns>
+        </DataGrid>
 
     </Grid>
 </Window>
