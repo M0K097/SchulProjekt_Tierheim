@@ -53,7 +53,7 @@
            <Run>Beschreibung:</Run>
            <Run Text="{Binding Beschreibung}"></Run>
             </TextBlock>
-            <Button HorizontalAlignment="Left" Width="200">Anfragen</Button>
+            <Button HorizontalAlignment="Left" Width="200" Click="Button_Click">Anfragen</Button>
             <Label>Deine Anfragen</Label>
             <ListView></ListView>
         </StackPanel>

@@ -62,5 +62,10 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
 
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
