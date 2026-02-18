@@ -19,9 +19,9 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Label>Benutzer:</Label>
+            <Label FontSize="16" FontFamily="Book Antiqua" >Benutzer:</Label>
             <TextBox x:Name="login_user_name" Width="100"></TextBox>
-            <Label>Passwort:</Label>
+            <Label FontSize="16" FontFamily="Book Antiqua">Passwort:</Label>
             <TextBox x:Name="login_user_password" Width="100"></TextBox>
             <Button x:Name="anmelden" Width="Auto" Click="anmelden_Click">Anmelden</Button>
         </StackPanel>
