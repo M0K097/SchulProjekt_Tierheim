@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-    <Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions>
             <ColumnDefinition Width="500"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -18,7 +18,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
+        <StackPanel x:Name="login_field" Grid.Row="0" Orientation="Horizontal">
             <Label FontSize="16" FontFamily="Book Antiqua" >Benutzer:</Label>
             <TextBox x:Name="login_user_name" Width="100"></TextBox>
             <Label FontSize="16" FontFamily="Book Antiqua">Passwort:</Label>
@@ -26,8 +26,10 @@
             <Button x:Name="anmelden" Width="Auto" Click="anmelden_Click">Anmelden</Button>
         </StackPanel>
 
+
         <StackPanel Grid.Row="1">
-            <TextBlock x:Name="user_name_show"></TextBlock>
+            <TextBlock FontSize="16" FontFamily="Book Antiqua" x:Name="user_name_show"></TextBlock>
+            <Button x:Name="abmelden" HorizontalAlignment="Left" FontFamily="Book Antiqua" Visibility="Hidden" Width="60" Click="abmelden_Click">Abmelden</Button>
             <Label FontFamily="Book Antiqua" FontSize="16">Filter:</Label>
             <TextBox x:Name="filter_query_name" BorderThickness="5" FontSize="18" KeyUp="filter_for_query" Width="Auto" Height="40"/>
             <DataGrid x:Name="tier_liste" BorderThickness="5" FontFamily="Book Antiqua" FontSize="18"  ItemsSource="{Binding gefilterte_tiere}" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="tier_liste_SelectionChanged">

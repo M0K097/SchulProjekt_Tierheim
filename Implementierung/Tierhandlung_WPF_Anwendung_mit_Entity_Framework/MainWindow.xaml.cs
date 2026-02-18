@@ -54,6 +54,8 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                 {
                     Benutzer = user;
                     user_name_show.Text = $"Angemeldet als Benutzer: {user.Benutzername}";
+                    login_field.Visibility = Visibility.Hidden;
+                    abmelden.Visibility = Visibility.Visible;
                 }
                 else
                 {
@@ -81,6 +83,15 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             {
                 anfrage_info.Text = "Sie müssen sich anmelden um Anfragen stellen zu können";
             }
+        }
+
+        private void abmelden_Click(object sender, RoutedEventArgs e)
+        {
+            login_field.Visibility = Visibility.Visible;
+            abmelden.Visibility = Visibility.Hidden;
+            login_user_name.Text = "";
+            login_user_password.Text = "";
+            Benutzer = null;
         }
     }
 }
