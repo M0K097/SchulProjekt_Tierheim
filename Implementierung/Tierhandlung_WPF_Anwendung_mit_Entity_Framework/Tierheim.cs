@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 using Tierhandlung_WPF_Anwendung_mit_Entity_Framework.DbModels;
 
 namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
@@ -80,9 +81,45 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
                 context.Anfragen.RemoveRange(selectedAnimal.Anfragen);
                 context.Tiere.Remove(selectedAnimal);
                 context.SaveChanges();
-                gefilterte_tiere.Remove(selectedAnimal);
+                alle_tiere.Remove(selectedAnimal);
             }
 
+        }
+
+        public void add_animal(string name, string species,DateTime geburtsdatum, string beschreibung)
+        {
+            var animal_to_add = new Tiere();
+            animal_to_add.Tiername = name;
+            animal_to_add.Tierart = species;
+            animal_to_add.Geburtsdatum = geburtsdatum;
+            animal_to_add.Beschreibung = beschreibung;
+
+            context.Tiere.Add(animal_to_add);
+            alle_tiere.Add(animal_to_add);
+            gefilterte_tiere.Add(animal_to_add);
+            context.SaveChanges();
+        }
+
+        public void tiere_ändern()
+        {
+            var con = context.Tiere;
+            var tiere = alle_tiere;
+            foreach(var t in tiere)
+            {
+                var to_change = con.First(match => match.TierId == t.TierId);
+                if (to_change.Tierart != t.Tierart ||
+                    to_change.Tiername != t.Tiername ||
+                    to_change.Beschreibung != t.Beschreibung ||
+                    to_change.Geburtsdatum != t.Geburtsdatum)
+                {
+                    to_change.Tierart = t.Tierart;
+                    to_change.Beschreibung = t.Beschreibung;
+                    to_change.Tiername = t.Tiername;
+                    to_change.Geburtsdatum = t.Geburtsdatum;
+                }
+
+                context.SaveChanges();
+            }
         }
 
         public Tierheim(TierheimContext tierheim)

@@ -58,11 +58,15 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                     if (user.IsAdmin != null && user.IsAdmin == true)
                     {
                         liste_anfragen.Visibility = Visibility.Visible;
+                        user_pannel.Visibility = Visibility.Collapsed;
+                        admin_pannel.Visibility = Visibility.Visible;
                         tierheim.load_anfragen();
                     }
                     else
                     {
                         liste_anfragen.Visibility = Visibility.Collapsed;
+                        admin_pannel.Visibility = Visibility.Collapsed;
+                        user_pannel.Visibility = Visibility.Visible;
                         tierheim.load_animals();
                     }
                     var alle_anfragen = tierheim.context.Anfragen.Include(a => a.Tier);
@@ -81,8 +85,13 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (Benutzer != null)
+            if (Benutzer == null)
             {
+
+                anfrage_info.Text = "Sie müssen sich anmelden um Anfragen stellen zu können";
+            }
+            else
+            { 
                 var ausgewähltes_tier = tier_liste.SelectedItem as Tiere;
                 if (ausgewähltes_tier != null)
                 {
@@ -99,10 +108,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                     }
                 }
             }
-            else
-            {
-                anfrage_info.Text = "Sie müssen sich anmelden um Anfragen stellen zu können";
-            }
+            
         }
 
         private void abmelden_Click(object sender, RoutedEventArgs e)
@@ -110,6 +116,8 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             login_field.Visibility = Visibility.Visible;
             abmelden.Visibility = Visibility.Hidden;
             liste_anfragen.Visibility = Visibility.Collapsed;
+            admin_pannel.Visibility = Visibility.Hidden;
+            user_pannel.Visibility = Visibility.Visible;
             user_name_show.Text = "Sie sind abgemeldet";
             login_user_name.Text = "";
             login_user_password.Text = "";
@@ -139,20 +147,26 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
 
         private void tier_entfernen_Click(object sender, RoutedEventArgs e)
         {
-            var animal_to_remove = tier_liste.SelectedItem as Tiere;
+            var animal_to_remove = admin_alle_tiere.SelectedItem as Tiere;
             if(animal_to_remove != null)
             {
-                foreach(var anfrage in tierheim.context.Anfragen)
-                {
-                    if(anfrage.TierId == animal_to_remove.TierId)
-                    {
-                        tierheim.context.Anfragen.Remove(anfrage);
-                    }
-                }
-                tierheim.context.Remove(animal_to_remove);
-                tierheim.gefilterte_tiere.Remove(animal_to_remove);
-                tierheim.context.SaveChanges();
+                tierheim.remove_animal(animal_to_remove);
             }
+        }
+
+        private void tier_hinzufügen_click(object sender, RoutedEventArgs e)
+        {
+            string name = animal_name_to_add.Text;
+            string art = animal_species_to_add.Text;
+            string beschreibung = animal_info_to_add.Text;
+            DateTime geburtsdatum = DateTime.Now;
+
+            tierheim.add_animal(name, art, geburtsdatum, beschreibung);
+        }
+
+        private void tier_ändern_click(object sender, RoutedEventArgs e)
+        {
+            tierheim.tiere_ändern();
         }
     }
 }
