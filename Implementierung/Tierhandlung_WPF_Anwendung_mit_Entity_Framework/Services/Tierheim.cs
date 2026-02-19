@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 using System.Windows.Markup;
 using Tierhandlung_WPF_Anwendung_mit_Entity_Framework.DbModels;
 
-namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
+namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Services
 {
     public class Tierheim
     {
-        public readonly TierheimContext context;
-        public ObservableCollection<Tiere> alle_tiere { get; set; }
+        private readonly TierheimContext context;
+        public ObservableCollection<Tiere> alle_tiere { get; }
         public ObservableCollection<Tiere> gefilterte_tiere { get; set; }
         public ObservableCollection<Anfragen> alle_anfragen { get; set; }
         public ObservableCollection<Anfragen> deine_anfragen { get; set; }
@@ -43,6 +43,48 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
                 alle_anfragen.Add(a);
             }
 
+        }
+
+        public Account get_user(string name, string passwd)
+        {
+            var user = context.Account.SingleOrDefault(a => a.Benutzername == name && a.Passwort == passwd);
+            return user;
+        }
+
+        public void load_nutzer_anfragen(Account nutzer)
+        {
+            var alle_anfragen = context.Anfragen.Include(a => a.Tier)
+                .Where(a => a.NutzerId == nutzer.NutzerId)
+                .ToList();
+
+            deine_anfragen.Clear();
+            foreach (var a in alle_anfragen)
+            {
+                deine_anfragen.Add(a);
+            }
+        }
+
+        public bool check_if_request_exists(int tierId, int benutzerId)
+        {
+            if (context.Anfragen.Any(a => a.TierId == tierId && a.NutzerId == benutzerId))
+                return true;
+            else
+                return false;
+
+        }
+
+        public bool create_new_account(Account neuer_account)
+        {
+            if (context.Account.Any(a => a.Benutzername == neuer_account.Benutzername))
+            {
+                return false;
+            }
+            else
+            {
+                context.Account.Add(neuer_account);
+                context.SaveChanges();
+                return true;
+            }
         }
 
         public void filter(string query)
@@ -86,7 +128,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
 
         }
 
-        public void add_animal(string name, string species,DateTime geburtsdatum, string beschreibung)
+        public void add_animal(string name, string species, DateTime geburtsdatum, string beschreibung)
         {
             var animal_to_add = new Tiere();
             animal_to_add.Tiername = name;
@@ -104,10 +146,13 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
         {
             var con = context.Tiere;
             var tiere = alle_tiere;
-            foreach(var t in tiere)
+            foreach (var t in tiere)
             {
-                var to_change = con.First(match => match.TierId == t.TierId);
-                if (to_change != null && to_change.Tierart != t.Tierart ||
+                var to_change = con.FirstOrDefault(match => match.TierId == t.TierId);
+                if (to_change == null)
+                    continue;
+
+                if (to_change.Tierart != t.Tierart ||
                     to_change.Tiername != t.Tiername ||
                     to_change.Beschreibung != t.Beschreibung ||
                     to_change.Geburtsdatum != t.Geburtsdatum)
@@ -118,13 +163,13 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
                     to_change.Geburtsdatum = t.Geburtsdatum;
                 }
 
-                context.SaveChanges();
             }
+                context.SaveChanges();
         }
 
-        public Tierheim(TierheimContext tierheim)
+        public Tierheim(TierheimContext db_context)
         {
-            this.context = new TierheimContext();
+            context = db_context;
             alle_tiere = new ObservableCollection<Tiere>();
             alle_anfragen = new ObservableCollection<Anfragen>();
             deine_anfragen = new ObservableCollection<Anfragen>();

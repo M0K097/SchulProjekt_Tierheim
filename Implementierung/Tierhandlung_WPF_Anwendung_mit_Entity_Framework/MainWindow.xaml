@@ -76,22 +76,24 @@
         </StackPanel>
 
         <StackPanel x:Name="admin_pannel" Grid.Column="0" Grid.Row="2" Visibility="Hidden">
-        <Button x:Name="tier_entfernen" Click="tier_entfernen_Click">Tier entfernen</Button>
-        <Button x:Name="tier_hinzufügen" Click="tier_hinzufügen_click">Tierhinzufügen</Button>
+            <Button x:Name="tier_entfernen" Click="tier_entfernen_Click">Tier entfernen</Button>
+            <Button x:Name="tier_hinzufügen" Click="tier_hinzufügen_click">Tierhinzufügen</Button>
             <Button x:Name="tier_änderungen_speichern" Click="tier_ändern_click">Änderungen speichern</Button>
             <TextBlock x:Name="bearbeitungs_info"></TextBlock>
-        <Label>Tiername</Label>
-        <TextBox x:Name="animal_name_to_add"></TextBox>
-        <Label>Tierart</Label>
-        <TextBox x:Name="animal_species_to_add"></TextBox>
-        <Label>Beschreibung</Label>
-        <TextBox x:Name="animal_info_to_add"></TextBox>
+            <Label>Tiername</Label>
+            <TextBox x:Name="animal_name_to_add"></TextBox>
+            <Label>Tierart</Label>
+            <TextBox x:Name="animal_species_to_add"></TextBox>
+            <Label>Geburtsdatum</Label>
+            <DatePicker Name="animal_birthday_to_add"></DatePicker>
+            <Label>Beschreibung</Label>
+            <TextBox x:Name="animal_info_to_add"></TextBox>
             <DataGrid x:Name="admin_alle_tiere" ItemsSource="{Binding alle_tiere}"></DataGrid>
         </StackPanel>
 
 
         <StackPanel Grid.Row="2" Grid.Column="2">
-                    <DataGrid Visibility="Hidden" x:Name="liste_anfragen" Grid.Column="0" Grid.Row="2" ItemsSource="{Binding alle_anfragen}" Margin="10" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="tier_liste_SelectionChanged">
+            <DataGrid Visibility="Hidden" x:Name="liste_anfragen" Grid.Column="0" Grid.Row="2" ItemsSource="{Binding alle_anfragen}" Margin="10" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="tier_liste_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="Auto" Header="Anfrage ID"  Binding="{Binding AnfrageId}" />
                     <DataGridTextColumn Width="Auto" Header="Name des Tieres" Binding="{Binding Tier.Tiername}" />

@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tierhandlung_WPF_Anwendung_mit_Entity_Framework.DbModels;
-using Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models;
+using Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Services;
 
 namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
 {
@@ -24,8 +24,8 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
         public MainWindow()
         {
             InitializeComponent();
-            var database_context = new TierheimContext();
-            tierheim = new Tierheim(database_context);
+            var database = new TierheimContext();
+            tierheim = new Tierheim(database);
             tierheim.load_animals();
             DataContext = tierheim;
         }
@@ -46,40 +46,40 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
         {
             string name = login_user_name.Text;
             string passwd = login_user_password.Text;
-            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(passwd))
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(passwd))
             {
-                try
+                user_name_show.Text = "Benutzernamen oder Passwort eingeben";
+                return;
+            }
+
+            var user = tierheim.get_user(name, passwd);
+            if (user != null)
+            {
+                Benutzer = user;
+                user_name_show.Text = $"Angemeldet als Benutzer: {user.Benutzername}";
+                login_field.Visibility = Visibility.Hidden;
+                abmelden.Visibility = Visibility.Visible;
+
+                if (user.IsAdmin == true)
                 {
-                    var user = tierheim.context.Account.First(a => a.Benutzername == name && a.Passwort == passwd);
-                    Benutzer = user;
-                    user_name_show.Text = $"Angemeldet als Benutzer: {user.Benutzername}";
-                    login_field.Visibility = Visibility.Hidden;
-                    abmelden.Visibility = Visibility.Visible;
-                    if (user.IsAdmin != null && user.IsAdmin == true)
-                    {
-                        liste_anfragen.Visibility = Visibility.Visible;
-                        user_pannel.Visibility = Visibility.Collapsed;
-                        admin_pannel.Visibility = Visibility.Visible;
-                        tierheim.load_anfragen();
-                    }
-                    else
-                    {
-                        liste_anfragen.Visibility = Visibility.Collapsed;
-                        admin_pannel.Visibility = Visibility.Collapsed;
-                        user_pannel.Visibility = Visibility.Visible;
-                        tierheim.load_animals();
-                    }
-                    var alle_anfragen = tierheim.context.Anfragen.Include(a => a.Tier);
-                    foreach (var a in alle_anfragen)
-                    {
-                        if (a.NutzerId == Benutzer.NutzerId)
-                            tierheim.deine_anfragen.Add(a);
-                    }
+                    liste_anfragen.Visibility = Visibility.Visible;
+                    user_pannel.Visibility = Visibility.Collapsed;
+                    admin_pannel.Visibility = Visibility.Visible;
+                    tierheim.load_anfragen();
                 }
-                catch
+                else
                 {
-                    user_name_show.Text = "Falscher Benutzername oder Passwort";
+                    liste_anfragen.Visibility = Visibility.Collapsed;
+                    admin_pannel.Visibility = Visibility.Collapsed;
+                    user_pannel.Visibility = Visibility.Visible;
+                    tierheim.load_animals();
                 }
+
+                tierheim.load_nutzer_anfragen(user);
+            }
+            else
+            {
+                user_name_show.Text = "Falscher Benutzername oder Passwort";
             }
         }
 
@@ -87,29 +87,29 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
         {
             if (Benutzer == null)
             {
-
                 anfrage_info.Text = "Sie müssen sich anmelden um Anfragen stellen zu können";
+                return;
+            }
+            var ausgewähltes_tier = tier_liste.SelectedItem as Tiere;
+            if (ausgewähltes_tier == null)
+            {
+                anfrage_info.Text = "Kein Tier ausgewählt";
+                return;
+            }
+
+            int tierId = ausgewähltes_tier.TierId;
+            int benutzerId = Benutzer.NutzerId;
+            if (tierheim.check_if_request_exists(tierId, benutzerId))
+            {
+                anfrage_info.Text = "Anfrage exisitiert bereits";
             }
             else
-            { 
-                var ausgewähltes_tier = tier_liste.SelectedItem as Tiere;
-                if (ausgewähltes_tier != null)
-                {
-                    int tierId = ausgewähltes_tier.TierId;
-                    int benutzerId = Benutzer.NutzerId;
-                    if (tierheim.context.Anfragen.Any(a => a.TierId == tierId && a.NutzerId == benutzerId))
-                    {
-                        anfrage_info.Text = "Anfrage exisitiert bereits";
-                    }
-                    else
-                    {
-                        tierheim.anfrage_stellen(benutzerId, tierId);
-                        anfrage_info.Text = $"Anfrage gestellt von dem Benutzer {Benutzer.Benutzername} an das Tier {ausgewähltes_tier.Tiername} erfolgreich erstellt";
-                    }
-                }
+            {
+                tierheim.anfrage_stellen(benutzerId, tierId);
+                anfrage_info.Text = $"Anfrage gestellt von dem Benutzer {Benutzer.Benutzername} an das Tier {ausgewähltes_tier.Tiername} erfolgreich erstellt";
             }
-            
         }
+
 
         private void abmelden_Click(object sender, RoutedEventArgs e)
         {
@@ -128,17 +128,22 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
         private void acc_erstellen_Click(object sender, RoutedEventArgs e)
         {
             {
+                if(string.IsNullOrEmpty(login_user_name.Text) || string.IsNullOrEmpty(login_user_password.Text))
+                {
+                    user_name_show.Text = "Weder Benutzername noch Passwort dürfen leer sein";
+                    return;
+                }
+
                 Account neuer_account = new Account();
-                neuer_account.Benutzername = login_user_name.Text;
-                neuer_account.Passwort = login_user_password.Text;
-                if (tierheim.context.Account.Any(a => a.Benutzername == neuer_account.Benutzername))
+                neuer_account.Benutzername = login_user_name.Text.Trim();
+                neuer_account.Passwort = login_user_password.Text.Trim();
+
+                if (!tierheim.create_new_account(neuer_account))
                 {
                     user_name_show.Text = $"Der Benutzername {neuer_account.Benutzername} existiert bereits";
                 }
                 else
                 {
-                    tierheim.context.Account.Add(neuer_account);
-                    tierheim.context.SaveChanges();
                     user_name_show.Text = $"Neuer Account mit dem Benutzernamen {neuer_account.Benutzername} wurde erstellt\b" +
                         $"Sie können sich einloggen";
                 }
@@ -148,13 +153,13 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
         private void tier_entfernen_Click(object sender, RoutedEventArgs e)
         {
             var animal_to_remove = admin_alle_tiere.SelectedItem as Tiere;
-            if(animal_to_remove != null)
+            if (animal_to_remove == null)
             {
-                tierheim.remove_animal(animal_to_remove);
-                bearbeitungs_info.Text = $"Tier entfernt => {animal_to_remove.TierId}-{animal_to_remove.Tiername}";
-            }
-            else
                 bearbeitungs_info.Text = "Kein Tier zum entfernen gefunden";
+                return;
+            }
+            tierheim.remove_animal(animal_to_remove);
+            bearbeitungs_info.Text = $"Tier entfernt => {animal_to_remove.TierId}-{animal_to_remove.Tiername}";
         }
 
         private void tier_hinzufügen_click(object sender, RoutedEventArgs e)
@@ -162,9 +167,20 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             string name = animal_name_to_add.Text;
             string art = animal_species_to_add.Text;
             string beschreibung = animal_info_to_add.Text;
-            DateTime geburtsdatum = DateTime.Now;
+            DateTime? geburtsdatum = animal_birthday_to_add.SelectedDate;
 
-            tierheim.add_animal(name, art, geburtsdatum, beschreibung);
+            if(geburtsdatum == null)
+            {
+                bearbeitungs_info.Text = "Kein Geburtsdatum ausgewählt";
+                return;
+            }
+            if(string.IsNullOrEmpty(name) || string.IsNullOrEmpty(art) || string.IsNullOrEmpty(beschreibung))
+            {
+                bearbeitungs_info.Text = "Alle Felder müssen ausgefüllt sein";
+                return;
+            }
+
+            tierheim.add_animal(name, art, (DateTime)geburtsdatum, beschreibung);
             bearbeitungs_info.Text = $"Tier hinzugefügt => {name}-{art}-{geburtsdatum}-{beschreibung}";
         }
 
