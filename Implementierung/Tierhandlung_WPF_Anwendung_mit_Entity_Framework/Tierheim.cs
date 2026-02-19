@@ -107,7 +107,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
             foreach(var t in tiere)
             {
                 var to_change = con.First(match => match.TierId == t.TierId);
-                if (to_change.Tierart != t.Tierart ||
+                if (to_change != null && to_change.Tierart != t.Tierart ||
                     to_change.Tiername != t.Tiername ||
                     to_change.Beschreibung != t.Beschreibung ||
                     to_change.Geburtsdatum != t.Geburtsdatum)

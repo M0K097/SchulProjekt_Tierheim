@@ -79,6 +79,7 @@
         <Button x:Name="tier_entfernen" Click="tier_entfernen_Click">Tier entfernen</Button>
         <Button x:Name="tier_hinzufügen" Click="tier_hinzufügen_click">Tierhinzufügen</Button>
             <Button x:Name="tier_änderungen_speichern" Click="tier_ändern_click">Änderungen speichern</Button>
+            <TextBlock x:Name="bearbeitungs_info"></TextBlock>
         <Label>Tiername</Label>
         <TextBox x:Name="animal_name_to_add"></TextBox>
         <Label>Tierart</Label>

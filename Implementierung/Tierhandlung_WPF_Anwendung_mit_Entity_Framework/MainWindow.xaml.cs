@@ -151,7 +151,10 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             if(animal_to_remove != null)
             {
                 tierheim.remove_animal(animal_to_remove);
+                bearbeitungs_info.Text = $"Tier entfernt => {animal_to_remove.TierId}-{animal_to_remove.Tiername}";
             }
+            else
+                bearbeitungs_info.Text = "Kein Tier zum entfernen gefunden";
         }
 
         private void tier_hinzufügen_click(object sender, RoutedEventArgs e)
@@ -162,11 +165,13 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             DateTime geburtsdatum = DateTime.Now;
 
             tierheim.add_animal(name, art, geburtsdatum, beschreibung);
+            bearbeitungs_info.Text = $"Tier hinzugefügt => {name}-{art}-{geburtsdatum}-{beschreibung}";
         }
 
         private void tier_ändern_click(object sender, RoutedEventArgs e)
         {
             tierheim.tiere_ändern();
+            bearbeitungs_info.Text = "Alle änderungen erfolgreich durchgeführt";
         }
     }
 }
