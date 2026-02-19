@@ -142,7 +142,16 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             var animal_to_remove = tier_liste.SelectedItem as Tiere;
             if(animal_to_remove != null)
             {
-                tierheim.remove_animal(animal_to_remove);
+                foreach(var anfrage in tierheim.context.Anfragen)
+                {
+                    if(anfrage.TierId == animal_to_remove.TierId)
+                    {
+                        tierheim.context.Anfragen.Remove(anfrage);
+                    }
+                }
+                tierheim.context.Remove(animal_to_remove);
+                tierheim.gefilterte_tiere.Remove(animal_to_remove);
+                tierheim.context.SaveChanges();
             }
         }
     }

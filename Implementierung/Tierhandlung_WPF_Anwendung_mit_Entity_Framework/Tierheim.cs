@@ -82,6 +82,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
                 context.SaveChanges();
                 gefilterte_tiere.Remove(selectedAnimal);
             }
+
         }
 
         public Tierheim(TierheimContext tierheim)
