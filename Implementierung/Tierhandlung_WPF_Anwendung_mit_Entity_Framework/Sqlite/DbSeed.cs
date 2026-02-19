@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Tierhandlung_WPF_Anwendung_mit_Entity_Framework.DbModels;
 
 namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
@@ -64,9 +62,27 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                 if (user1 != null && user2 != null && tier1 != null && tier2 != null && tier3 != null)
                 {
                     context.Anfragen.AddRange(
-                        new Anfragen { NutzerId = user1.NutzerId, TierId = tier1.TierId },
-                        new Anfragen { NutzerId = user1.NutzerId, TierId = tier2.TierId },
-                        new Anfragen { NutzerId = user2.NutzerId, TierId = tier3.TierId }
+                        new Anfragen
+                        {
+                            NutzerId = user1.NutzerId,
+                            TierId = tier1.TierId,
+                            Status = "Pending",
+                            TextInfo = "User1 interessiert sich für Bello"
+                        },
+                        new Anfragen
+                        {
+                            NutzerId = user1.NutzerId,
+                            TierId = tier2.TierId,
+                            Status = "Pending",
+                            TextInfo = "User1 interessiert sich für Miezi"
+                        },
+                        new Anfragen
+                        {
+                            NutzerId = user2.NutzerId,
+                            TierId = tier3.TierId,
+                            Status = "Approved",
+                            TextInfo = "User2 hat Hoppel adoptiert"
+                        }
                     );
                 }
             }
@@ -75,5 +91,4 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             context.SaveChanges();
         }
     }
-
 }
