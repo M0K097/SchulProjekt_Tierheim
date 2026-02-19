@@ -25,6 +25,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
         {
             InitializeComponent();
             var database = new TierheimContext();
+            DbSeeder.Seed(database);
             tierheim = new Tierheim(database);
             tierheim.load_animals();
             DataContext = tierheim;
