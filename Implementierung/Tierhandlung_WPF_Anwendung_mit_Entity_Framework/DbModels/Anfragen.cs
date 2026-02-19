@@ -10,6 +10,8 @@ public partial class Anfragen
     public int? NutzerId { get; set; }
 
     public int? TierId { get; set; }
+    public string? Status { get; set; }
+    public string? TextInfo { get; set; }
 
     public virtual Account? Nutzer { get; set; }
 

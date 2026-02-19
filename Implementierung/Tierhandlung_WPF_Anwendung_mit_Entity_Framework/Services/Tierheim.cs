@@ -42,7 +42,6 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Services
             }
 
         }
-
         public Account get_user(string name, string passwd)
         {
             var user = context.Account.SingleOrDefault(a => a.Benutzername == name && a.Passwort == passwd);

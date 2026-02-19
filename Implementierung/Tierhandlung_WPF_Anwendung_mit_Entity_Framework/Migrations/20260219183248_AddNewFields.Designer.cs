@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tierhandlung_WPF_Anwendung_mit_Entity_Framework.DbModels;
 
@@ -10,9 +11,11 @@ using Tierhandlung_WPF_Anwendung_mit_Entity_Framework.DbModels;
 namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Migrations
 {
     [DbContext(typeof(TierheimContext))]
-    partial class TierheimContextModelSnapshot : ModelSnapshot
+    [Migration("20260219183248_AddNewFields")]
+    partial class AddNewFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.12");

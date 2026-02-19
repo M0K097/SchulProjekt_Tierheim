@@ -15,6 +15,8 @@ public partial class Tiere
 
     public string? Beschreibung { get; set; }
 
+    public byte[]? Picture { get; set; }
+
     public virtual ICollection<Anfragen> Anfragen { get; set; } = new List<Anfragen>();
 
       
