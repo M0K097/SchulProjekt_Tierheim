@@ -1,6 +1,6 @@
 # Tierhandlung WPF Anwendung mit Entity Framework
 
-**Autor:** Dein Name
+**Autor:** Moritz Kolb
 
 ## Kurzbeschreibung
 
@@ -47,4 +47,4 @@ Administratoren können Tiere hinzufügen, bearbeiten oder löschen und den Stat
 
 - Die Anwendung verwendet **Entity Framework Core** mit **SQLite**.
 - Tierbilder werden als **Byte-Array** in der Datenbank gespeichert.
-- Beim Hinzufügen eines neuen Tieres kann ein Bild aus dem `Images`-Ordner ausgewählt werden.
+
