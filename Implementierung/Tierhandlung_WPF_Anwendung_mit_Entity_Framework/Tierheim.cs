@@ -20,11 +20,11 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
         public ObservableCollection<Anfragen> deine_anfragen { get; set; }
 
         public void load_animals()
-        {   
+        {
             var animals = context.Tiere.ToList();
             alle_tiere.Clear();
             gefilterte_tiere.Clear();
-            foreach(var an in animals)
+            foreach (var an in animals)
             {
                 alle_tiere.Add(an);
                 gefilterte_tiere.Add(an);
@@ -37,13 +37,12 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
             var anfragen = context.Anfragen.Include(a => a.Nutzer)
                 .Include(a => a.Tier)
                 .OrderBy(a => a.AnfrageId);
-            foreach(var a in anfragen)
+            foreach (var a in anfragen)
             {
                 alle_anfragen.Add(a);
             }
 
         }
-
 
         public void filter(string query)
         {
@@ -52,10 +51,9 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
             {
                 if (!string.IsNullOrEmpty(element.Tiername) && !string.IsNullOrEmpty(element.Tierart))
                 {
-                    if (element.Tiername.Contains(query, StringComparison.OrdinalIgnoreCase) || 
-                        element.Tierart.Contains(query,StringComparison.OrdinalIgnoreCase))
+                    if (element.Tiername.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                        element.Tierart.Contains(query, StringComparison.OrdinalIgnoreCase))
                         gefilterte_tiere.Add(element);
-
                 }
             }
         }
@@ -71,6 +69,21 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
             context.SaveChanges();
         }
 
+        public void remove_animal(Tiere selected_animal)
+        {
+            var selectedAnimal = context.Tiere
+            .Include(t => t.Anfragen)
+            .FirstOrDefault(t => t.TierId == selected_animal.TierId);
+
+            if (selectedAnimal != null)
+            {
+                context.Anfragen.RemoveRange(selectedAnimal.Anfragen);
+                context.Tiere.Remove(selectedAnimal);
+                context.SaveChanges();
+                gefilterte_tiere.Remove(selectedAnimal);
+            }
+        }
+
         public Tierheim(TierheimContext tierheim)
         {
             this.context = new TierheimContext();
@@ -79,6 +92,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Models
             deine_anfragen = new ObservableCollection<Anfragen>();
             gefilterte_tiere = new ObservableCollection<Tiere>();
         }
+
     }
-     
+
 }

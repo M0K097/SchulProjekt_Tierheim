@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tierhandlung_WPF_Anwendung_mit_Entity_Framework"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="642" Width="1299">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="800"></ColumnDefinition>
@@ -73,16 +73,19 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            
         </StackPanel>
 
-        <DataGrid Visibility="Hidden" x:Name="liste_anfragen" Grid.Column="0" Grid.Row="2" ItemsSource="{Binding alle_anfragen}" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="tier_liste_SelectionChanged">
-            <DataGrid.Columns>
-                <DataGridTextColumn Width="Auto" Header="Anfrage ID"  Binding="{Binding AnfrageId}" />
-                <DataGridTextColumn Width="Auto" Header="Name des Tieres" Binding="{Binding Tier.Tiername}" />
-                <DataGridTextColumn Width="Auto" Header="Name des Benutzers"  Binding="{Binding Nutzer.Benutzername}" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <StackPanel Grid.Row="2" Grid.Column="2">
+            <Button x:Name="tier_entfernen" Click="tier_entfernen_Click">Tier entfernen</Button>
+            <DataGrid Visibility="Hidden" x:Name="liste_anfragen" Grid.Column="0" Grid.Row="2" ItemsSource="{Binding alle_anfragen}" Margin="10" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="tier_liste_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="Auto" Header="Anfrage ID"  Binding="{Binding AnfrageId}" />
+                    <DataGridTextColumn Width="Auto" Header="Name des Tieres" Binding="{Binding Tier.Tiername}" />
+                    <DataGridTextColumn Width="Auto" Header="Name des Benutzers"  Binding="{Binding Nutzer.Benutzername}" />
+                    <DataGridTextColumn Width="Auto" Header="Beschreibung des Tieres"  Binding="{Binding Tier.Beschreibung}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
 
     </Grid>
 </Window>

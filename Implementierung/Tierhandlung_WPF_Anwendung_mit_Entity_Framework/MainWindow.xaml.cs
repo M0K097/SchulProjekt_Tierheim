@@ -18,7 +18,6 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
 {
     public partial class MainWindow : Window
     {
-
         Tierheim tierheim { get; set; }
         public Account? Benutzer { get; set; } = null;
 
@@ -30,7 +29,6 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             tierheim.load_animals();
             DataContext = tierheim;
         }
-
 
         private void filter_for_query(object sender, KeyEventArgs e)
         {
@@ -60,13 +58,11 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                     if (user.IsAdmin != null && user.IsAdmin == true)
                     {
                         liste_anfragen.Visibility = Visibility.Visible;
-                        user_pannel.Visibility = Visibility.Collapsed;
                         tierheim.load_anfragen();
                     }
                     else
                     {
                         liste_anfragen.Visibility = Visibility.Collapsed;
-                        user_pannel.Visibility = Visibility.Visible;
                         tierheim.load_animals();
                     }
                     var alle_anfragen = tierheim.context.Anfragen.Include(a => a.Tier);
@@ -101,7 +97,6 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                         tierheim.anfrage_stellen(benutzerId, tierId);
                         anfrage_info.Text = $"Anfrage gestellt von dem Benutzer {Benutzer.Benutzername} an das Tier {ausgewähltes_tier.Tiername} erfolgreich erstellt";
                     }
-
                 }
             }
             else
@@ -139,6 +134,15 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                     user_name_show.Text = $"Neuer Account mit dem Benutzernamen {neuer_account.Benutzername} wurde erstellt\b" +
                         $"Sie können sich einloggen";
                 }
+            }
+        }
+
+        private void tier_entfernen_Click(object sender, RoutedEventArgs e)
+        {
+            var animal_to_remove = tier_liste.SelectedItem as Tiere;
+            if(animal_to_remove != null)
+            {
+                tierheim.remove_animal(animal_to_remove);
             }
         }
     }
