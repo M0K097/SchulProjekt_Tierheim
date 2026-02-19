@@ -42,6 +42,17 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Services
             }
 
         }
+
+        public void UpdateAnfrageStatus(int anfrageId, string status)
+        {
+            var anfrage = context.Anfragen.FirstOrDefault(a => a.AnfrageId == anfrageId);
+            if (anfrage != null)
+            {
+                anfrage.Status = status;
+                context.SaveChanges();
+            }
+        }
+
         public Account get_user(string name, string passwd)
         {
             var user = context.Account.SingleOrDefault(a => a.Benutzername == name && a.Passwort == passwd);

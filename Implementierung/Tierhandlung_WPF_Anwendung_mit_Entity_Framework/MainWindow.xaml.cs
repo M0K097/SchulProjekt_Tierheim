@@ -107,6 +107,28 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                 user_name_show.Text = "Falscher Benutzername oder Passwort";
             }
         }
+        private void Status_Setzen_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedAnfrage = liste_anfragen.SelectedItem as Anfragen;
+            if (selectedAnfrage == null)
+            {
+                MessageBox.Show("Bitte wählen Sie eine Anfrage aus.");
+                return;
+            }
+
+            if (status_dropdown.SelectedItem is ComboBoxItem selectedItem)
+            {
+                string neuerStatus = selectedItem.Content.ToString();
+                selectedAnfrage.Status = neuerStatus;
+
+                // Update database
+                tierheim.UpdateAnfrageStatus(selectedAnfrage.AnfrageId, neuerStatus);
+
+                // Refresh DataGrid
+                liste_anfragen.Items.Refresh();
+            }
+        }
+
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
