@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,13 +41,32 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
         {
             var t = tier_liste.SelectedItem as Tiere;
             if (t != null)
-                selected.DataContext = t;
+            {
+                selected.DataContext = t; // Textfelder aktualisieren
+
+                if (t.Picture != null && t.Picture.Length > 0)
+                {
+                    using var ms = new MemoryStream(t.Picture);
+                    var bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.StreamSource = ms;
+                    bitmap.EndInit();
+                    bitmap.Freeze();
+                    selectedTierImage.Source = bitmap; // Image-Element in XAML
+                }
+                else
+                {
+                    selectedTierImage.Source = null; // kein Bild
+                }
+            }
         }
+
 
         private void anmelden_Click(object sender, RoutedEventArgs e)
         {
             string name = login_user_name.Text;
-            string passwd = login_user_password.Text;
+            string passwd = login_user_password.Password;
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(passwd))
             {
                 user_name_show.Text = "Benutzernamen oder Passwort eingeben";
@@ -63,16 +83,20 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
 
                 if (user.IsAdmin == true)
                 {
+                    admin_anfragen_pannel.Visibility = Visibility.Visible;
                     liste_anfragen.Visibility = Visibility.Visible;
                     user_pannel.Visibility = Visibility.Collapsed;
                     admin_pannel.Visibility = Visibility.Visible;
+                    tierdetails.Visibility = Visibility.Collapsed;
                     tierheim.load_anfragen();
                 }
                 else
                 {
+                    admin_anfragen_pannel.Visibility = Visibility.Collapsed;
                     liste_anfragen.Visibility = Visibility.Collapsed;
                     admin_pannel.Visibility = Visibility.Collapsed;
                     user_pannel.Visibility = Visibility.Visible;
+                    tierdetails.Visibility = Visibility.Visible;
                     tierheim.load_animals();
                 }
 
@@ -84,13 +108,15 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             }
         }
 
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (Benutzer == null)
             {
-                anfrage_info.Text = "Sie müssen sich anmelden um Anfragen stellen zu können";
+                anfrage_info.Text = "Sie müssen sich anmelden, um Anfragen stellen zu können";
                 return;
             }
+
             var ausgewähltes_tier = tier_liste.SelectedItem as Tiere;
             if (ausgewähltes_tier == null)
             {
@@ -98,16 +124,24 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                 return;
             }
 
+            if (string.IsNullOrWhiteSpace(anfrage_text.Text))
+            {
+                anfrage_info.Text = "Bitte geben Sie einen Kommentar ein, bevor Sie die Anfrage stellen";
+                return;
+            }
+
             int tierId = ausgewähltes_tier.TierId;
             int benutzerId = Benutzer.NutzerId;
+
             if (tierheim.check_if_request_exists(tierId, benutzerId))
             {
-                anfrage_info.Text = "Anfrage exisitiert bereits";
+                anfrage_info.Text = "Anfrage existiert bereits";
             }
             else
             {
-                tierheim.anfrage_stellen(benutzerId, tierId);
-                anfrage_info.Text = $"Anfrage gestellt von dem Benutzer {Benutzer.Benutzername} an das Tier {ausgewähltes_tier.Tiername} erfolgreich erstellt";
+                tierheim.anfrage_stellen(benutzerId, tierId, anfrage_text.Text);
+                anfrage_info.Text = $"Anfrage gestellt von {Benutzer.Benutzername} an das Tier {ausgewähltes_tier.Tiername} erfolgreich erstellt";
+                anfrage_text.Clear();
             }
         }
 
@@ -121,7 +155,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             user_pannel.Visibility = Visibility.Visible;
             user_name_show.Text = "Sie sind abgemeldet";
             login_user_name.Text = "";
-            login_user_password.Text = "";
+            login_user_password.Password = "";
             tierheim.deine_anfragen.Clear();
             Benutzer = null;
         }
@@ -129,7 +163,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
         private void acc_erstellen_Click(object sender, RoutedEventArgs e)
         {
             {
-                if(string.IsNullOrEmpty(login_user_name.Text) || string.IsNullOrEmpty(login_user_password.Text))
+                if(string.IsNullOrEmpty(login_user_name.Text) || string.IsNullOrEmpty(login_user_password.Password))
                 {
                     user_name_show.Text = "Weder Benutzername noch Passwort dürfen leer sein";
                     return;
@@ -137,7 +171,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
 
                 Account neuer_account = new Account();
                 neuer_account.Benutzername = login_user_name.Text.Trim();
-                neuer_account.Passwort = login_user_password.Text.Trim();
+                neuer_account.Passwort = login_user_password.Password.Trim();
 
                 if (!tierheim.create_new_account(neuer_account))
                 {

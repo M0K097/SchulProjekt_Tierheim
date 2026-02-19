@@ -98,11 +98,12 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Services
             }
         }
 
-        public void anfrage_stellen(int BenutzerId, int TierId)
+        public void anfrage_stellen(int BenutzerId, int TierId, string comment)
         {
             var neue_anfrage = new Anfragen();
             neue_anfrage.NutzerId = BenutzerId;
             neue_anfrage.TierId = TierId;
+            neue_anfrage.TextInfo = comment;
 
             context.Anfragen.Add(neue_anfrage);
             deine_anfragen.Add(neue_anfrage);

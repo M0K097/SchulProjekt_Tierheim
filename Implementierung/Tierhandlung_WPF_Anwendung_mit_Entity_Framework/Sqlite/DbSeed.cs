@@ -31,7 +31,8 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                         Tiername = "Bello",
                         Tierart = "Hund",
                         Geburtsdatum = new DateTime(2020, 5, 1),
-                        Beschreibung = "Freundlicher Hund"
+                        Beschreibung = "Freundlicher Hund",
+                        Picture = File.ReadAllBytes("Images/Bello.jpg")
                     },
                     new Tiere
                     {

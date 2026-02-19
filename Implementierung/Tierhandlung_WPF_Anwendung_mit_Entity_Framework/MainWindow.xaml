@@ -1,107 +1,191 @@
 ﻿<Window x:Class="Tierhandlung_WPF_Anwendung_mit_Entity_Framework.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Tierhandlung_WPF_Anwendung_mit_Entity_Framework"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="642" Width="1299">
-    <Grid>
+        Title="Tierheim Verwaltung" Height="642" Width="1300"
+        Background="#f5f5f5">
+
+    <Window.Resources>
+        <Style TargetType="Control">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#4CAF50"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="5,2"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#45a049"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#388E3C"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style TargetType="DataGridRow">
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="#f0f0f0"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#d0f0ff"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <DropShadowEffect x:Key="PanelShadow" Color="Gray" BlurRadius="5" ShadowDepth="2"/>
+    </Window.Resources>
+
+    <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="800"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="500"/>
+            <!-- Tierliste -->
+            <ColumnDefinition Width="400"/>
+            <!-- Tierdetails rechts -->
+            <ColumnDefinition Width="*"/>
+            <!-- Admin/Anfragen -->
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="50"/>
+            <!-- Login -->
+            <RowDefinition Height="Auto"/>
+            <!-- User Info -->
+            <RowDefinition/>
+            <!-- Main Content -->
         </Grid.RowDefinitions>
 
-        <StackPanel x:Name="login_field" Grid.Row="0" Orientation="Horizontal">
-            <Label FontSize="16" FontFamily="Book Antiqua" >Benutzer:</Label>
-            <TextBox x:Name="login_user_name" Width="100"></TextBox>
-            <Label FontSize="16" FontFamily="Book Antiqua">Passwort:</Label>
-            <TextBox x:Name="login_user_password" Width="100"></TextBox>
-            <Button x:Name="anmelden" Width="Auto" FontFamily="Book Antiqua" FontSize="16" Click="anmelden_Click">Anmelden</Button>
-            <Button x:Name="acc_erstellen" FontFamily="Book Antiqua" FontSize="16" Width="Auto" Click="acc_erstellen_Click">Account erstellen</Button>
+        <!-- Login Panel -->
+        <Border x:Name="login_field" Grid.Row="0" Grid.ColumnSpan="3" Background="White" CornerRadius="8" Padding="5" Effect="{StaticResource PanelShadow}">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Label Content="Benutzer:"/>
+                <TextBox x:Name="login_user_name" Width="100"/>
+                <Label Content="Passwort:"/>
+                <PasswordBox x:Name="login_user_password" Width="100"/>
+                <Button x:Name="anmelden" Click="anmelden_Click" Content="Anmelden"/>
+                <Button x:Name="acc_erstellen" Click="acc_erstellen_Click" Content="Account erstellen"/>
+            </StackPanel>
+        </Border>
+
+        <!-- User Info -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="5">
+            <TextBlock x:Name="user_name_show"/>
+            <Button x:Name="abmelden" Width="100" Visibility="Hidden" Click="abmelden_Click" Content="Abmelden"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
-            <TextBlock FontSize="16" FontFamily="Book Antiqua" x:Name="user_name_show"></TextBlock>
-            <Button x:Name="abmelden" FontSize="16" HorizontalAlignment="Left" FontFamily="Book Antiqua" Visibility="Hidden" Width="100" Click="abmelden_Click">Abmelden</Button>
-        </StackPanel>
+        <!-- Tierliste DataGrid -->
+        <Border x:Name="user_pannel" Background="White" CornerRadius="8" Padding="10" Margin="0,10,10,0" Grid.Row="2" Grid.Column="0" Effect="{StaticResource PanelShadow}">
+            <StackPanel>
+                <Label Content="Tierliste" FontWeight="Bold" FontSize="18" Margin="0,0,0,5"/>
+                <Label Content="Filter:"/>
+                <TextBox x:Name="filter_query_name" Height="40" KeyUp="filter_for_query"/>
+                <DataGrid x:Name="tier_liste" ItemsSource="{Binding gefilterte_tiere}" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="tier_liste_SelectionChanged" AlternationCount="2">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Art" Width="Auto" Binding="{Binding Tierart}" />
+                        <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Tiername}" />
+                        <DataGridTextColumn Header="Nummer" Width="Auto" Binding="{Binding TierId}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Label Content="Deine Anfragen" Margin="0,10,0,0"/>
+                <ListView ItemsSource="{Binding deine_anfragen}" Height="150">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                <Run Text="Anfrage ID: "/>
+                <Run Text="{Binding AnfrageId}"/>
+                <Run Text=", Tier: "/>
+                <Run Text="{Binding Tier.Tiername}"/>
+                <Run Text=" (" />
+                <Run Text="{Binding Tier.Tierart}"/>
+                <Run Text=")"/>
+                <Run Text=", Status: "/>
+                <Run Text="{Binding Status}"/>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
+            </StackPanel>
+        </Border>
+     
 
-        <StackPanel x:Name="user_pannel" Grid.Row="2">
-            <Label FontFamily="Book Antiqua" FontSize="16">Filter:</Label>
-            <TextBox x:Name="filter_query_name" BorderThickness="5" FontSize="18" KeyUp="filter_for_query" Width="Auto" Height="40"/>
-            <DataGrid x:Name="tier_liste" BorderThickness="5" FontFamily="Book Antiqua" FontSize="18"  ItemsSource="{Binding gefilterte_tiere}" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="tier_liste_SelectionChanged">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Art" Width="Auto" Binding="{Binding Tierart}" />
-                    <DataGridTextColumn Header="Name" Width="*"  Binding="{Binding Tiername}" />
-                    <DataGridTextColumn Header="Nummer" Width="Auto"  Binding="{Binding TierId}" />
-                </DataGrid.Columns>
-            </DataGrid>
-            <TextBlock FontSize="16" FontFamily="Book Antiqua" Margin="10" x:Name="selected">
-           <Run>Name:</Run>
-           <Run Text="{Binding Tiername}"></Run>
-           <LineBreak></LineBreak>
-           <Run>Spezies:</Run>
-           <Run Text="{Binding Tierart}"></Run>
-           <LineBreak></LineBreak>
-           <Run>Nummer:</Run>
-           <Run Text="{Binding TierId}"></Run>
-           <LineBreak></LineBreak>
-           <Run>Gebohren:</Run>
-           <Run Text="{Binding Geburtsdatum}"></Run>
-           <LineBreak></LineBreak>
-           <Run>Beschreibung:</Run>
-           <Run Text="{Binding Beschreibung}"></Run>
-            </TextBlock>
-            <Button HorizontalAlignment="Left" FontSize="18" FontWeight="Bold" FontFamily="Book Antiqua" Width="200" Click="Button_Click">Anfragen</Button>
-            <TextBlock FontFamily="Book Antiqua" FontSize="16" Background="Aqua" x:Name="anfrage_info"></TextBlock>
-            <Label>Deine Anfragen</Label>
-            <ListView ItemsSource="{Binding deine_anfragen}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock>
-                            <Run Text="{Binding AnfrageId}"></Run>
-                            <Run Text="{Binding Tier.Tiername}"></Run>
-                            <Run Text="{Binding Tier.Tierart}"></Run>
-                        </TextBlock>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackPanel>
+        <!-- Tierdetails rechts vom DataGrid -->
+        <Border Grid.Row="2" Name="tierdetails" Grid.Column="1" Background="White" CornerRadius="8" Padding="10" Margin="0,10,10,0" Effect="{StaticResource PanelShadow}">
+            <StackPanel>
+                <Label Content="Ausgewähltes Tier" FontWeight="Bold" FontSize="18" Margin="0,0,0,5"/>
 
-        <StackPanel x:Name="admin_pannel" Grid.Column="0" Grid.Row="2" Visibility="Hidden">
-            <Button x:Name="tier_entfernen" Click="tier_entfernen_Click">Tier entfernen</Button>
-            <Button x:Name="tier_hinzufügen" Click="tier_hinzufügen_click">Tierhinzufügen</Button>
-            <Button x:Name="tier_änderungen_speichern" Click="tier_ändern_click">Änderungen speichern</Button>
-            <TextBlock x:Name="bearbeitungs_info"></TextBlock>
-            <Label>Tiername</Label>
-            <TextBox x:Name="animal_name_to_add"></TextBox>
-            <Label>Tierart</Label>
-            <TextBox x:Name="animal_species_to_add"></TextBox>
-            <Label>Geburtsdatum</Label>
-            <DatePicker Name="animal_birthday_to_add"></DatePicker>
-            <Label>Beschreibung</Label>
-            <TextBox x:Name="animal_info_to_add"></TextBox>
-            <DataGrid x:Name="admin_alle_tiere" ItemsSource="{Binding alle_tiere}"></DataGrid>
-        </StackPanel>
+                <!-- Bild -->
+                <Image x:Name="selectedTierImage" Height="150" Width="150" Stretch="UniformToFill" Margin="0,0,0,10"/>
 
+                <!-- Tierdetails -->
+                <TextBlock x:Name="selected">
+                    <Run Text="Name: "/><Run Text="{Binding Tiername}"/><LineBreak/>
+                    <Run Text="Spezies: "/><Run Text="{Binding Tierart}"/><LineBreak/>
+                    <Run Text="Nummer: "/><Run Text="{Binding TierId}"/><LineBreak/>
+                    <Run Text="Geboren: "/><Run Text="{Binding Geburtsdatum}"/><LineBreak/>
+                    <Run Text="Beschreibung: "/><Run Text="{Binding Beschreibung}"/>
+                </TextBlock>
 
-        <StackPanel Grid.Row="2" Grid.Column="2">
-            <DataGrid Visibility="Hidden" x:Name="liste_anfragen" Grid.Column="0" Grid.Row="2" ItemsSource="{Binding alle_anfragen}" Margin="10" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="tier_liste_SelectionChanged">
+                <!-- Kommentar + Button -->
+                <Label Content="Dein Kommentar:" Margin="0,10,0,0"/>
+                <TextBox x:Name="anfrage_text" Height="60" AcceptsReturn="True" TextWrapping="Wrap" Margin="0,0,0,5"/>
+                <Button Width="200" Click="Button_Click" Content="Anfragen"/>
+                <TextBlock x:Name="anfrage_info" Background="#b2ebf2" Padding="5" Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Admin Panel (bleibt unverändert) -->
+        <Border x:Name="admin_pannel" Grid.Column="0" Grid.Row="2" Background="#fff3e0" CornerRadius="8" Padding="10" Visibility="Hidden" Effect="{StaticResource PanelShadow}">
+            <StackPanel>
+                <Button x:Name="tier_entfernen" Click="tier_entfernen_Click" Content="Tier entfernen"/>
+                <Button x:Name="tier_hinzufügen" Click="tier_hinzufügen_click" Content="Tierhinzufügen"/>
+                <Button x:Name="tier_änderungen_speichern" Click="tier_ändern_click" Content="Änderungen speichern"/>
+                <TextBlock x:Name="bearbeitungs_info"/>
+                <Label Content="Tiername"/>
+                <TextBox x:Name="animal_name_to_add"/>
+                <Label Content="Tierart"/>
+                <TextBox x:Name="animal_species_to_add"/>
+                <Label Content="Geburtsdatum"/>
+                <DatePicker Name="animal_birthday_to_add"/>
+                <Label Content="Beschreibung"/>
+                <TextBox x:Name="animal_info_to_add"/>
+                <DataGrid x:Name="admin_alle_tiere" ItemsSource="{Binding alle_tiere}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Admin Anfragen DataGrid -->
+        <Border x:Name="admin_anfragen_pannel" Grid.Row="2" Grid.Column="2" Background="#e3f2fd" CornerRadius="8" Padding="10" Visibility="Hidden" Effect="{StaticResource PanelShadow}">
+            <DataGrid x:Name="liste_anfragen" ItemsSource="{Binding alle_anfragen}" AutoGenerateColumns="False" IsReadOnly="True" AlternationCount="2">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="Auto" Header="Anfrage ID"  Binding="{Binding AnfrageId}" />
-                    <DataGridTextColumn Width="Auto" Header="Name des Tieres" Binding="{Binding Tier.Tiername}" />
-                    <DataGridTextColumn Width="Auto" Header="Name des Benutzers"  Binding="{Binding Nutzer.Benutzername}" />
-                    <DataGridTextColumn Width="Auto" Header="Beschreibung des Tieres"  Binding="{Binding Tier.Beschreibung}" />
+                    <DataGridTextColumn Width="*" Header="Name des Tieres" Binding="{Binding Tier.Tiername}" />
+                    <DataGridTextColumn Width="*" Header="Name des Benutzers"  Binding="{Binding Nutzer.Benutzername}" />
+                    <DataGridTextColumn Width="*" Header="Beschreibung des Tieres"  Binding="{Binding TextInfo}" />
+                    <DataGridTextColumn Width="Auto" Header="Status" Binding="{Binding Status}"/>
                 </DataGrid.Columns>
             </DataGrid>
-        </StackPanel>
+        </Border>
 
     </Grid>
 </Window>
