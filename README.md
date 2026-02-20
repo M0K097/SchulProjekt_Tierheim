@@ -43,9 +43,9 @@ Administratoren können Tiere hinzufügen, bearbeiten oder löschen und den Stat
 
 ---
 
-## Video
+## Link Video
 
-[Basics](Dokumentation/recording_tierheim.mp4)
+[Basics](Dokumentation/record_tierhandlung.mp4)
 
 ## Hinweise
 
