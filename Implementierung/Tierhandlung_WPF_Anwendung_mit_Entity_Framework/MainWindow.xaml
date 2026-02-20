@@ -89,7 +89,7 @@
         </Border>
 
         <!-- User Info -->
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="5">
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center" Margin="5">
             <TextBlock x:Name="user_name_show"/>
             <Button x:Name="abmelden" Width="100" Visibility="Hidden" Click="abmelden_Click" Content="Abmelden"/>
         </StackPanel>
@@ -175,7 +175,7 @@
         </Border>
 
         <StackPanel Grid.Row="2" Grid.Column="2" Margin="10" x:Name="admin_anfragen_pannel" Visibility="Hidden">
-            <Label Content="Alle Anfragen" FontWeight="Bold" FontSize="16"/>
+                      <Label Content="Alle Anfragen" FontWeight="Bold" FontSize="16"/>
             <DataGrid x:Name="liste_anfragen" ItemsSource="{Binding alle_anfragen}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Height="250">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Anfrage ID" Binding="{Binding AnfrageId}" Width="Auto"/>
@@ -195,6 +195,15 @@
                     <ComboBoxItem Content="Abgeschlossen"/>
                 </ComboBox>
                 <Button Content="Status setzen" Width="120" Margin="10,0,0,0" Click="Status_Setzen_Click"/>
+            </StackPanel>
+            <StackPanel Width="400" HorizontalAlignment="Right">
+            <Label FontSize="14" FontWeight="Bold">Einen neuen Administrator Account erstellen</Label>
+            <Label>Administrator Name</Label>
+            <TextBox x:Name="admin_login_name"></TextBox>
+            <Label>Administrator Passwort</Label>
+                <PasswordBox x:Name="admin_login_password"></PasswordBox>
+                <Button x:Name="create_admin_account" Click="admin_erstellen">Administrator Account erstellen</Button>
+
             </StackPanel>
         </StackPanel>
 

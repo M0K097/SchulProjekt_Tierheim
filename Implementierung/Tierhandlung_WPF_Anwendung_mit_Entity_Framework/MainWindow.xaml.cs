@@ -175,6 +175,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             liste_anfragen.Visibility = Visibility.Collapsed;
             admin_pannel.Visibility = Visibility.Hidden;
             user_pannel.Visibility = Visibility.Visible;
+            admin_anfragen_pannel.Visibility = Visibility.Collapsed;
             user_name_show.Text = "Sie sind abgemeldet";
             login_user_name.Text = "";
             login_user_password.Password = "";
@@ -191,17 +192,39 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                     return;
                 }
 
-                Account neuer_account = new Account();
-                neuer_account.Benutzername = login_user_name.Text.Trim();
-                neuer_account.Passwort = login_user_password.Password.Trim();
+                var name = login_user_name.Text;
+                var password = login_user_password.Password;
 
-                if (!tierheim.create_new_account(neuer_account))
+                if (!tierheim.create_new_account(name, password,false))
                 {
-                    user_name_show.Text = $"Der Benutzername {neuer_account.Benutzername} existiert bereits";
+                    user_name_show.Text = $"Der Benutzername {name} existiert bereits";
                 }
                 else
                 {
-                    user_name_show.Text = $"Neuer Account mit dem Benutzernamen {neuer_account.Benutzername} wurde erstellt\b" +
+                    user_name_show.Text = $"Neuer Account mit dem Benutzernamen {name} wurde erstellt\b" +
+                        $"Sie können sich einloggen";
+                }
+            }
+        }
+        private void admin_erstellen(object sender, RoutedEventArgs e)
+        {
+            {
+                if (string.IsNullOrEmpty(login_user_name.Text) || string.IsNullOrEmpty(login_user_password.Password))
+                {
+                    user_name_show.Text = "Weder Benutzername noch Passwort dürfen leer sein";
+                    return;
+                }
+
+                var name = admin_login_name.Text;
+                var password = admin_login_password.Password;
+
+                if (!tierheim.create_new_account(name, password, true))
+                {
+                    user_name_show.Text = $"Der Administrator {name} existiert bereits";
+                }
+                else
+                {
+                    user_name_show.Text = $"Neuer Administrator mit dem Benutzernamen {name} wurde erstellt\b" +
                         $"Sie können sich einloggen";
                 }
             }

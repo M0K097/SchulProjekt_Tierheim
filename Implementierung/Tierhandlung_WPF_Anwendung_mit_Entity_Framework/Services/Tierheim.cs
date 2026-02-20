@@ -81,14 +81,24 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Services
 
         }
 
-        public bool create_new_account(Account neuer_account)
+        public bool create_new_account(string username,string password , bool is_admin)
         {
-            if (context.Account.Any(a => a.Benutzername == neuer_account.Benutzername))
+
+            if (context.Account.Any(a => a.Benutzername == username))
             {
                 return false;
             }
             else
             {
+
+                Account neuer_account = new Account();
+                neuer_account.Benutzername = username.Trim();
+                neuer_account.Passwort = password.Trim();
+                if (is_admin)
+                    neuer_account.IsAdmin = true;
+                else
+                    neuer_account.IsAdmin = false;
+
                 context.Account.Add(neuer_account);
                 context.SaveChanges();
                 return true;
