@@ -64,15 +64,15 @@
             <!-- Tierliste -->
             <ColumnDefinition Width="400"/>
             <!-- Tierdetails rechts -->
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
             <!-- Admin/Anfragen -->
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
             <!-- Login -->
             <RowDefinition Height="Auto"/>
             <!-- User Info -->
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
             <!-- Main Content -->
         </Grid.RowDefinitions>
 
@@ -128,7 +128,7 @@
 
             </StackPanel>
         </Border>
-     
+
 
         <!-- Tierdetails rechts vom DataGrid -->
         <Border Grid.Row="2" Name="tierdetails" Grid.Column="1" Background="White" CornerRadius="8" Padding="10" Margin="0,10,10,0" Effect="{StaticResource PanelShadow}">
@@ -154,6 +154,36 @@
                 <TextBlock x:Name="anfrage_info" Background="#b2ebf2" Padding="5" Margin="0,5,0,0"/>
             </StackPanel>
         </Border>
+        <Border x:Name="admin_tierdetails"
+        Grid.Row="2"
+        Grid.Column="1"
+        Background="White"
+        CornerRadius="8"
+        Padding="10"
+        Margin="0,10,10,0"
+        Visibility="Hidden"
+        Effect="{StaticResource PanelShadow}">
+
+            <StackPanel>
+                <Label Content="Tierdetails (Admin)" 
+               FontWeight="Bold" 
+               FontSize="18"/>
+
+                <Image x:Name="adminSelectedTierImage"
+               Height="150"
+               Width="150"
+               Stretch="UniformToFill"
+               Margin="0,0,0,10"/>
+
+                <TextBlock x:Name="admin_selected">
+            <Run Text="Name: "/><Run Text="{Binding Tiername}"/><LineBreak/>
+            <Run Text="Spezies: "/><Run Text="{Binding Tierart}"/><LineBreak/>
+            <Run Text="Nummer: "/><Run Text="{Binding TierId}"/><LineBreak/>
+            <Run Text="Geboren: "/><Run Text="{Binding Geburtsdatum}"/><LineBreak/>
+            <Run Text="Beschreibung: "/><Run Text="{Binding Beschreibung}"/>
+                </TextBlock>
+            </StackPanel>
+        </Border>
 
         <!-- Admin Panel (bleibt unverändert) -->
         <Border x:Name="admin_pannel" Grid.Column="0" Grid.Row="2" Background="#fff3e0" CornerRadius="8" Padding="10" Visibility="Hidden" Effect="{StaticResource PanelShadow}">
@@ -170,12 +200,13 @@
                 <DatePicker Name="animal_birthday_to_add"/>
                 <Label Content="Beschreibung"/>
                 <TextBox x:Name="animal_info_to_add"/>
-                <DataGrid x:Name="admin_alle_tiere" ItemsSource="{Binding alle_tiere}"/>
+                <DataGrid x:Name="admin_alle_tiere" SelectionChanged="admin_alle_tiere_SelectionChanged" ItemsSource="{Binding alle_tiere}"/>
+                <Button Content="Bild hochladen" Click="bild_hochladen_Click"/>
             </StackPanel>
         </Border>
 
         <StackPanel Grid.Row="2" Grid.Column="2" Margin="10" x:Name="admin_anfragen_pannel" Visibility="Hidden">
-                      <Label Content="Alle Anfragen" FontWeight="Bold" FontSize="16"/>
+            <Label Content="Alle Anfragen" FontWeight="Bold" FontSize="16"/>
             <DataGrid x:Name="liste_anfragen" ItemsSource="{Binding alle_anfragen}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Height="250">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Anfrage ID" Binding="{Binding AnfrageId}" Width="Auto"/>
@@ -197,10 +228,10 @@
                 <Button Content="Status setzen" Width="120" Margin="10,0,0,0" Click="Status_Setzen_Click"/>
             </StackPanel>
             <StackPanel Width="400" HorizontalAlignment="Right">
-            <Label FontSize="14" FontWeight="Bold">Einen neuen Administrator Account erstellen</Label>
-            <Label>Administrator Name</Label>
-            <TextBox x:Name="admin_login_name"></TextBox>
-            <Label>Administrator Passwort</Label>
+                <Label FontSize="14" FontWeight="Bold">Einen neuen Administrator Account erstellen</Label>
+                <Label>Administrator Name</Label>
+                <TextBox x:Name="admin_login_name"></TextBox>
+                <Label>Administrator Passwort</Label>
                 <PasswordBox x:Name="admin_login_password"></PasswordBox>
                 <Button x:Name="create_admin_account" Click="admin_erstellen">Administrator Account erstellen</Button>
 

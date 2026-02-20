@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
@@ -61,6 +62,30 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                 }
             }
         }
+        private void admin_alle_tiere_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var t = admin_alle_tiere.SelectedItem as Tiere;
+            if (t == null) return;
+
+            admin_selected.DataContext = t;
+
+            if (t.Picture != null && t.Picture.Length > 0)
+            {
+                using var ms = new MemoryStream(t.Picture);
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.StreamSource = ms;
+                bitmap.EndInit();
+                bitmap.Freeze();
+
+                adminSelectedTierImage.Source = bitmap;
+            }
+            else
+            {
+                adminSelectedTierImage.Source = null;
+            }
+        }
 
 
         private void anmelden_Click(object sender, RoutedEventArgs e)
@@ -88,6 +113,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                     user_pannel.Visibility = Visibility.Collapsed;
                     admin_pannel.Visibility = Visibility.Visible;
                     tierdetails.Visibility = Visibility.Collapsed;
+                    admin_tierdetails.Visibility = Visibility.Visible;
                     tierheim.load_anfragen();
                 }
                 else
@@ -97,6 +123,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                     admin_pannel.Visibility = Visibility.Collapsed;
                     user_pannel.Visibility = Visibility.Visible;
                     tierdetails.Visibility = Visibility.Visible;
+                    admin_tierdetails.Visibility = Visibility.Collapsed;
                     tierheim.load_animals();
                 }
 
@@ -240,6 +267,31 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             }
             tierheim.remove_animal(animal_to_remove);
             bearbeitungs_info.Text = $"Tier entfernt => {animal_to_remove.TierId}-{animal_to_remove.Tiername}";
+        }
+        private void bild_hochladen_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedAnimal = admin_alle_tiere.SelectedItem as Tiere;
+
+            if (selectedAnimal == null)
+            {
+                bearbeitungs_info.Text = "Bitte zuerst ein Tier auswählen";
+                return;
+            }
+
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Bilddateien (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg";
+
+            if (dialog.ShowDialog() == true)
+            {
+                byte[] imageBytes = File.ReadAllBytes(dialog.FileName);
+
+                // In DB speichern
+                selectedAnimal.Picture = imageBytes;
+
+                tierheim.tiere_ändern(); // speichert Änderungen
+
+                bearbeitungs_info.Text = "Bild erfolgreich hochgeladen";
+            }
         }
 
         private void tier_hinzufügen_click(object sender, RoutedEventArgs e)
