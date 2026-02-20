@@ -1,18 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Microsoft.Win32;
-using System.Collections.ObjectModel;
+﻿using Microsoft.Win32;
 using System.IO;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Tierhandlung_WPF_Anwendung_mit_Entity_Framework.DbModels;
 using Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Services;
 
@@ -43,7 +34,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             var t = tier_liste.SelectedItem as Tiere;
             if (t != null)
             {
-                selected.DataContext = t; // Textfelder aktualisieren
+                selected.DataContext = t;
 
                 if (t.Picture != null && t.Picture.Length > 0)
                 {
@@ -54,11 +45,11 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                     bitmap.StreamSource = ms;
                     bitmap.EndInit();
                     bitmap.Freeze();
-                    selectedTierImage.Source = bitmap; // Image-Element in XAML
+                    selectedTierImage.Source = bitmap;
                 }
                 else
                 {
-                    selectedTierImage.Source = null; // kein Bild
+                    selectedTierImage.Source = null;
                 }
             }
         }
@@ -284,11 +275,27 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
             if (dialog.ShowDialog() == true)
             {
                 byte[] imageBytes = File.ReadAllBytes(dialog.FileName);
+                
 
-                // In DB speichern
                 selectedAnimal.Picture = imageBytes;
+                if (selectedAnimal.Picture != null && selectedAnimal.Picture.Length > 0)
+                {
+                    using var ms = new MemoryStream(selectedAnimal.Picture);
+                    var bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.StreamSource = ms;
+                    bitmap.EndInit();
+                    bitmap.Freeze();
+                    adminSelectedTierImage.Source = bitmap;
+                }
+                else
+                {
+                    adminSelectedTierImage.Source = null;
+                }
+                
 
-                tierheim.tiere_ändern(); // speichert Änderungen
+                tierheim.tiere_ändern();
 
                 bearbeitungs_info.Text = "Bild erfolgreich hochgeladen";
             }
