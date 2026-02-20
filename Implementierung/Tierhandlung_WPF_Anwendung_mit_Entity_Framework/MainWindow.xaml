@@ -200,7 +200,15 @@
                 <DatePicker Name="animal_birthday_to_add"/>
                 <Label Content="Beschreibung"/>
                 <TextBox x:Name="animal_info_to_add"/>
-                <DataGrid x:Name="admin_alle_tiere" SelectionChanged="admin_alle_tiere_SelectionChanged" ItemsSource="{Binding alle_tiere}"/>
+                <DataGrid x:Name="admin_alle_tiere" SelectionChanged="admin_alle_tiere_SelectionChanged" AutoGenerateColumns="False" ItemsSource="{Binding alle_tiere}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding TierId}" Width="Auto"/>
+                        <DataGridTextColumn Header="Art" Binding="{Binding Tierart}" Width="*"/>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Tiername}" Width="*"/>
+                        <DataGridTextColumn Header="Beschreibung" Binding="{Binding Beschreibung}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
                 <Button Content="Bild hochladen" Click="bild_hochladen_Click"/>
             </StackPanel>
         </Border>
@@ -209,10 +217,10 @@
             <Label Content="Alle Anfragen" FontWeight="Bold" FontSize="16"/>
             <DataGrid x:Name="liste_anfragen" ItemsSource="{Binding alle_anfragen}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Height="250">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Anfrage ID" Binding="{Binding AnfrageId}" Width="Auto"/>
-                    <DataGridTextColumn Header="Tier" Binding="{Binding Tier.Tiername}" Width="*"/>
-                    <DataGridTextColumn Header="Benutzer" Binding="{Binding Nutzer.Benutzername}" Width="*"/>
-                    <DataGridTextColumn Header="Beschreibung" Binding="{Binding Tier.Beschreibung}" Width="*"/>
+                    <DataGridTextColumn Header="Anfrage ID" Binding="{Binding AnfrageId}" Width="10"/>
+                    <DataGridTextColumn Header="Tier" Binding="{Binding Tier.Tiername}" Width="Auto"/>
+                    <DataGridTextColumn Header="Benutzer" Binding="{Binding Nutzer.Benutzername}" Width="Auto"/>
+                    <DataGridTextColumn Header="Beschreibung" Binding="{Binding Tier.Beschreibung}" Width="Auto"/>
                     <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto"/>
                 </DataGrid.Columns>
             </DataGrid>
