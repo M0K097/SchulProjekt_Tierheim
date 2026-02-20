@@ -43,6 +43,10 @@ Administratoren können Tiere hinzufügen, bearbeiten oder löschen und den Stat
 
 ---
 
+## Video
+
+[Basics](Dokumentation/recording_tierheim.mp4)
+
 ## Hinweise
 
 - Die Anwendung verwendet **Entity Framework Core** mit **SQLite**.
