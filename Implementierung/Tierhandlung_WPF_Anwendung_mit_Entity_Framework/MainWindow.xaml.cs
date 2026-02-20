@@ -219,8 +219,7 @@ namespace Tierhandlung_WPF_Anwendung_mit_Entity_Framework
                 }
                 else
                 {
-                    user_name_show.Text = $"Neuer Account mit dem Benutzernamen {name} wurde erstellt\b" +
-                        $"Sie können sich einloggen";
+                    user_name_show.Text = $"Neuer Account mit dem Benutzernamen {name} wurde erstellt";
                 }
             }
         }
