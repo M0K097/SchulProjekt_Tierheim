@@ -22,5 +22,4 @@ Die GitHub Action wurde eingerichtet, um bei jedem Push oder Pull Request automa
 6. **Status-Badge einfügen**  
    Badge zeigt den Status der letzten Testausführung in der README an:
 
-   ```markdown
-   ![.NET Unit Tests](https://github.com/<USERNAME>/<REPO>/actions/workflows/dotnet-tests.yml/badge.svg)
+
