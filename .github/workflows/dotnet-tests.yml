@@ -20,10 +20,10 @@ jobs:
           dotnet-version: 9.0
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore Implementierung/Tierhandlung_Projekt.1_Moritz_Kolb.sln
 
       - name: Build solution
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build Implementierung/Tierhandlung_Projekt.1_Moritz_Kolb.sln --no-restore --configuration Release
 
       - name: Run tests
-        run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=test_results.trx"
+        run: dotnet test Implementierung/Tierhandlung_Projekt.1_Moritz_Kolb.sln --no-build --configuration Release --logger "trx;LogFileName=test_results.trx"
