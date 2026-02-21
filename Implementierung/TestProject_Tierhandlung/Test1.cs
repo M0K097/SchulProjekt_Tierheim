@@ -19,7 +19,8 @@
             {
                 var tierheim = CreateTierheim();
 
-                var result = tierheim.create_new_account("testuser", "1234", false);
+                
+                var result = tierheim.create_new_account("testuser2", "1234", false);
 
                 Assert.IsTrue(result);
             }
