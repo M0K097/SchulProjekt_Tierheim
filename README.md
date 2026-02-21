@@ -52,3 +52,6 @@ Administratoren können Tiere hinzufügen, bearbeiten oder löschen und den Stat
 - Die Anwendung verwendet **Entity Framework Core** mit **SQLite**.
 - Tierbilder werden als **Byte-Array** in der Datenbank gespeichert.
 
+## Test-Badge
+[![.NET Unit Tests](https://github.com/M0K097/SchulProjekt_Tierheim/actions/workflows/dotnet-tests.yml/badge.svg)](https://github.com/M0K097/SchulProjekt_Tierheim/actions/workflows/dotnet-tests.yml)
+
