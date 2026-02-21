@@ -3,7 +3,6 @@
     using Tierhandlung_WPF_Anwendung_mit_Entity_Framework.Services;
     using Tierhandlung_WPF_Anwendung_mit_Entity_Framework.DbModels;
 
-
     namespace Tests
     {
         [TestClass]
